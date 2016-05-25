@@ -1,0 +1,10 @@
+// Creation d'une Instance de GDB
+//Envoie du fichier compilé à GDB
+	//Reception et traitement de la réponse de GDB
+//Creation des breaks en indiqunat le nombre de ligne ou la fonction
+//Excution de run
+	//Reception et traitement de la réponse de GDB
+//Step/ Continue /Next
+	// traitement des prints
+
+//Exit
