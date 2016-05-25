@@ -93,18 +93,17 @@
 		}
 
 
-	    }
+	    
 
 	        //Variables List locals
-	    if input == "list-variables" {
-
-		fmt.Println(gdb.Send("stack-list-variables --all-values"))
-
+		
+	    if input == "list" {		
+		fmt.Println(gdb.Send("stack-list-variables","1"))
 		}
 
 
-
-	    //gdb.Exit()
 	}
+	    //gdb.Exit()
+}
 
 
