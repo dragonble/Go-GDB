@@ -116,6 +116,7 @@
 				}
 
 
+<<<<<<< HEAD
 				  }
 
 					  //List of Variables locals
@@ -124,13 +125,28 @@
 				fmt.Println(gdb.Send("stack-list-variables", "--all-values"))
 
 				}
+=======
+	    
+
+	        //Variables List locals
+		
+	    if input == "list" {		
+		fmt.Println(gdb.Send("stack-list-variables","1"))
+		}
+>>>>>>> 6342247a94ccd2c1ff9b9f75272c68d86705a008
 
 					//Backtrace
 				  if input == "backtrace"{
 				fmt.Println(gdb.Send("stack-list-frames"))
 				} 
 
+<<<<<<< HEAD
 				  gdb.Exit()
 			}
+=======
+	}
+	    //gdb.Exit()
+}
+>>>>>>> 6342247a94ccd2c1ff9b9f75272c68d86705a008
 
 
