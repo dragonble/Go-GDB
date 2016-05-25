@@ -51,7 +51,7 @@
 				fmt.Println(err)		
 				}
 				fmt.Println(express)
-				  }
+		}
 
 				//
 				 /* if input == "print" {
@@ -73,10 +73,8 @@
 					if err !=nil {
 						fmt.Println(err)				
 						}
-					if bod, ok :=sortie["payload"];ok{
-							fmt.Println(bod["body"])
+					fmt.Println(sortie["payload"])
 				}
-			}
 
 				//Break delete
 							if input == "delete" {
@@ -117,9 +115,7 @@
 				gdb.Send("exec-run" )		
 				}
 
-
-				  }
-
+				
 					  //List of Variables locals
 				  if input == "list-variables" {
 
@@ -127,12 +123,26 @@
 
 				}
 
-					//Backtrace
-				  if input == "backtrace"{
-				fmt.Println(gdb.Send("stack-list-frames"))
-				} 
+	    
+
+			    //Variables List locals
+		
+						if input == "list" {		
+							fmt.Println(gdb.Send("stack-list-variables","1"))
+						}
+	
+
+						//Backtrace
+					  if input == "backtrace"{
+							fmt.Println(gdb.Send("stack-list-frames"))
+					} 
+
+				  }
+
+
 
 				  gdb.Exit()
 			}
+
 
 

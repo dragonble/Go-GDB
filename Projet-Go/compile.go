@@ -51,7 +51,7 @@
 				fmt.Println(err)		
 				}
 				fmt.Println(express)
-				  }
+		}
 
 				//
 				 /* if input == "print" {
@@ -115,38 +115,34 @@
 				gdb.Send("exec-run" )		
 				}
 
-
-<<<<<<< HEAD
-				  }
-
+				
 					  //List of Variables locals
 				  if input == "list-variables" {
 
 				fmt.Println(gdb.Send("stack-list-variables", "--all-values"))
 
 				}
-=======
+
 	    
 
-	        //Variables List locals
+			    /*//Variables List locals
 		
-	    if input == "list" {		
-		fmt.Println(gdb.Send("stack-list-variables","1"))
-		}
->>>>>>> 6342247a94ccd2c1ff9b9f75272c68d86705a008
+						if input == "list" {		
+							fmt.Println(gdb.Send("stack-list-variables","1"))
+						}*/
+	
 
-					//Backtrace
-				  if input == "backtrace"{
-				fmt.Println(gdb.Send("stack-list-frames"))
-				} 
+						//Backtrace
+					  if input == "backtrace"{
+							fmt.Println(gdb.Send("stack-list-frames"))
+					} 
 
-<<<<<<< HEAD
+				  }
+
+
+
 				  gdb.Exit()
 			}
-=======
-	}
-	    //gdb.Exit()
-}
->>>>>>> 6342247a94ccd2c1ff9b9f75272c68d86705a008
+
 
 
