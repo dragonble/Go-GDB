@@ -123,9 +123,46 @@
 
 				}
 
+<<<<<<< HEAD
 					//Backtrace
 				if input == "backtrace"{
 							fmt.Println(gdb.Send("stack-list-frames"))
+=======
+	    
+
+			    /*//Variables List locals
+		
+						if input == "list" {		
+							fmt.Println(gdb.Send("stack-list-variables","1"))
+						}*/
+	
+
+						//Backtrace
+					  if input == "backtrace"{
+							expr,_:=gdb.Send("stack-list-frames")
+							pay:=expr["payload"]
+							payAssert:=pay.(map[string]interface{})
+				
+							stack:=payAssert["stack"]
+							
+							stackAssert:=stack.([]interface{})
+							nbreFct:=len(stackAssert)
+							for i:=0; i<=nbreFct-1 ; i++{
+								stackSepare:=stackAssert[i]
+								stackSepareAssert:=stackSepare.(map[string]interface{})
+								
+								frame:=stackSepareAssert["frame"]
+								frameAssert:=frame.(map[string]interface{})
+								fun:=frameAssert["func"]
+								line:=frameAssert["line"]
+								level:=frameAssert["level"]
+								fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
+
+								
+							}
+							
+							
+>>>>>>> dd734bb6975e77613a9c594d822ebb9aff62310d
 					} 
 
 				//Watcpoints
