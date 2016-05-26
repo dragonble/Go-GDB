@@ -134,7 +134,29 @@
 
 						//Backtrace
 					  if input == "backtrace"{
-							fmt.Println(gdb.Send("stack-list-frames"))
+							expr,_:=gdb.Send("stack-list-frames")
+							pay:=expr["payload"]
+							payAssert:=pay.(map[string]interface{})
+				
+							stack:=payAssert["stack"]
+							
+							stackAssert:=stack.([]interface{})
+							nbreFct:=len(stackAssert)
+							for i:=0; i<=nbreFct-1 ; i++{
+								stackSepare:=stackAssert[i]
+								stackSepareAssert:=stackSepare.(map[string]interface{})
+								
+								frame:=stackSepareAssert["frame"]
+								frameAssert:=frame.(map[string]interface{})
+								fun:=frameAssert["func"]
+								line:=frameAssert["line"]
+								level:=frameAssert["level"]
+								fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
+
+								
+							}
+							
+							
 					} 
 
 				  }
