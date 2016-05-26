@@ -46,11 +46,11 @@
 
 				//Step
 				  if input == "step" {
-				  express, err := gdb.Send("exec-step")
+				  output, err := gdb.Send("exec-step")
 				if err != nil {
 				fmt.Println(err)		
 				}
-				fmt.Println(express)
+				fmt.Println(output)
 		}
 
 				//
@@ -69,15 +69,15 @@
 		
 				//Breakpoints list
 				  if input == "break-list" {
-					sortie,err :=gdb.Send("break-list")
+					output,err :=gdb.Send("break-list")
 					if err !=nil {
 						fmt.Println(err)				
 						}
-					fmt.Println(sortie["payload"])
+					fmt.Println(output["payload"])
 				}
 
 				//Break delete
-							if input == "delete" {
+				if input == "delete" {
 						var numero_break string		
 						fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
 						fmt.Scanln(&numero_break )
@@ -102,12 +102,12 @@
 				fmt.Scanln(&var_cible)
 		
 				gdb.Send("var-create", var_gdb, "@", var_cible)
-				express2,err := gdb.Send("var-evaluate-expression", var_gdb)	
+				output,err := gdb.Send("var-evaluate-expression", var_gdb)	
 				if err !=nil{
 					fmt.Println(err)
 					}
 
-				fmt.Println(express2["payload"])
+				fmt.Println(output["payload"])
 				}
 		
 				//Run
@@ -123,23 +123,35 @@
 
 				}
 
-	    
-
-			    //Variables List locals
-		
-						if input == "list" {		
-							fmt.Println(gdb.Send("stack-list-variables","1"))
-						}
-	
-
-						//Backtrace
-					  if input == "backtrace"{
+					//Backtrace
+				if input == "backtrace"{
 							fmt.Println(gdb.Send("stack-list-frames"))
 					} 
 
-				  }
+				//Watcpoints
+				if input == "watchpoints" {
 
 
+				}
+
+					//Record
+				if input == "record" {
+					fmt.Println(gdb.Send("record"))
+			}
+					//Reverse stepping
+				if input == "step-reverse" {
+					fmt.Println(gdb.Send("exec-step","--reverse"))
+					
+
+
+					}
+
+
+
+
+
+}
+	
 
 				  gdb.Exit()
 			}
