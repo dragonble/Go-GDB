@@ -73,7 +73,31 @@
 					if err !=nil {
 						fmt.Println(err)				
 						}
+<<<<<<< HEAD
 					fmt.Println(output["payload"])
+=======
+					grosBordel:=sortie["payload"]
+					grosBordelAssert := grosBordel.(map[string]interface {})
+					breakpointTable := grosBordelAssert["BreakpointTable"]
+					breakpointTableAssert := breakpointTable.(map[string]interface {})
+					Array := breakpointTableAssert["body"]
+					ArrayAssert := Array.([]interface{})
+					nbreVar:=len(ArrayAssert)
+					for i:=0; i<=nbreVar-1 ; i++{
+						mapSepare := ArrayAssert[i]
+						mapSepareAssert := mapSepare.(map[string]interface {})
+						bkpt := mapSepareAssert["bkpt"]
+						bkptAssert := bkpt.(map[string]interface {})
+						number:=bkptAssert["number"]
+						typeB :=bkptAssert["type"]
+						enabled :=bkptAssert["enabled"]
+						times :=bkptAssert["times"]
+						disp :=bkptAssert["disp"]
+						fun :=bkptAssert["func"]
+						line :=bkptAssert["line"]
+						fmt.Println("number:",number,"type:",typeB,"enabled:",enabled,"times:",times,"disp:",disp,"function:",fun,"line:",line)
+					}
+>>>>>>> 63bb87867810b526cc5be1aaa3f1b0da2a2324f6
 				}
 
 				//Break delete
@@ -119,7 +143,28 @@
 					  //List of Variables locals
 				  if input == "list-variables" {
 
-				fmt.Println(gdb.Send("stack-list-variables", "--all-values"))
+				
+					expr,err := gdb.Send("stack-list-variables", "--all-values")	
+					if err !=nil{
+						fmt.Println(err)
+					}
+
+					variables := expr["payload"]
+				
+					variablesAssert := variables.(map[string]interface {})
+					Array := variablesAssert["variables"]
+					ArrayAssert := Array.([]interface{})
+					nbreVar:=len(ArrayAssert)
+					for i:=0; i<=nbreVar-1 ; i++{
+						mapListe := ArrayAssert[i]
+						mapListeAssert := mapListe.(map[string]interface {})
+						name := mapListeAssert["name"]
+						value := mapListeAssert["value"]
+						arg := mapListeAssert["arg"]
+						fmt.Println("name : ", name , "value : ",value , "arg : ",arg)
+								
+					}
+				
 
 				}
 
@@ -139,8 +184,16 @@
 
 						//Backtrace
 					  if input == "backtrace"{
+<<<<<<< HEAD
 							output,_:=gdb.Send("stack-list-frames")
 							pay:=output["payload"]
+=======
+							expr,err:=gdb.Send("stack-list-frames")
+							if err != nil {
+								fmt.Println(err)		
+							}
+							pay:=expr["payload"]
+>>>>>>> 63bb87867810b526cc5be1aaa3f1b0da2a2324f6
 							payAssert:=pay.(map[string]interface{})
 				
 							stack:=payAssert["stack"]
