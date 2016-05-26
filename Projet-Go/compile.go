@@ -35,7 +35,7 @@
 				 
 				  var input string
 				  
-				  for input != "quit"   {
+			 for input != "quit"   {
 				  fmt.Println("Que voulez-vous faire ?")
 				  fmt.Scanln(&input)
 				  
@@ -123,11 +123,11 @@
 
 				}
 
-<<<<<<< HEAD
+
 					//Backtrace
-				if input == "backtrace"{
-							fmt.Println(gdb.Send("stack-list-frames"))
-=======
+				/*if input == "backtrace1"{
+							fmt.Println(gdb.Send("stack-list-frames"))}*/
+
 	    
 
 			    /*//Variables List locals
@@ -139,8 +139,8 @@
 
 						//Backtrace
 					  if input == "backtrace"{
-							expr,_:=gdb.Send("stack-list-frames")
-							pay:=expr["payload"]
+							output,_:=gdb.Send("stack-list-frames")
+							pay:=output["payload"]
 							payAssert:=pay.(map[string]interface{})
 				
 							stack:=payAssert["stack"]
@@ -162,7 +162,7 @@
 							}
 							
 							
->>>>>>> dd734bb6975e77613a9c594d822ebb9aff62310d
+
 					} 
 
 				//Watcpoints
