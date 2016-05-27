@@ -133,7 +133,8 @@
 		
 					//Run
 					  if input == "run" {
-					gdb.Send("exec-run" )		
+					gdb.Send("exec-run" )	
+					gdb.Send("interpreter-exec","console","record")	
 					}
 
 				
@@ -212,15 +213,28 @@
 
 					}
 						
-						//Record
-					if input == "record" {
-						fmt.Println(gdb.Send("interpreter-exec","console","record"))
-				}
 					
-					//execute la commande mais ne renvoie pas la réponse
+					
 					//Where
 				if input == "where" {
-						fmt.Println(gdb.Send("interpreter-exec","console","trace"))
+						output,_ := gdb.Send("stack-list-frames")
+							pay:=output["payload"]
+
+							payAssert:=pay.(map[string]interface{})
+				
+							stack:=payAssert["stack"]
+							stackAssert:=stack.([]interface{})
+							
+							//Premier stack			
+							stackSepare:=stackAssert[0]
+							stackSepareAssert:=stackSepare.(map[string]interface{})
+								
+							frame:=stackSepareAssert["frame"]
+							frameAssert:=frame.(map[string]interface{})
+							fun:=frameAssert["func"]
+							line:=frameAssert["line"]
+							fmt.Println("function : ",fun ,"  line : ",line)
+
 				}
  	}
 	
