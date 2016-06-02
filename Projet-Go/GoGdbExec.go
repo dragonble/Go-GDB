@@ -9,7 +9,7 @@
 
 				func main() {
 
-
+					  
 					  // start a new instance and pipe the target output to stdout
 					  gdb, _ := gdb.New(nil)
 					  go io.Copy(os.Stdout, gdb)
@@ -17,7 +17,7 @@
 			
 
 					  // load and run a program
-					  gdb.Send("file-exec-and-symbols", "essai")
+					  gdb.Send("file-exec-and-symbols", os.Args[1])
 					 
 					  var input string
 					  
@@ -133,8 +133,10 @@
 		
 					//Run
 					  if input == "run" {
-					gdb.Send("exec-run" )	
+					
+					fmt.Println(gdb.Send("exec-run"))
 					gdb.Send("interpreter-exec","console","record")	
+					
 					}
 
 				
