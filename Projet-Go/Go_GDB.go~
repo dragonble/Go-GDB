@@ -9,10 +9,9 @@
 
 				func main() {
 
-					//Instanciantion d'une notif
-						var notif gdb.NotificationCallback
+
 					  // start a new instance and pipe the target output to stdout
-					  gdb, _ := gdb.New(notif)
+					  gdb, _ := gdb.New(nil)
 					  go io.Copy(os.Stdout, gdb)
 
 			
@@ -34,7 +33,6 @@
 								fmt.Println("rentrez votre breakpoint")
 								fmt.Scanln(&input_break)
 								gdb.Send("break-insert", input_break)
-								fmt.Println(notif)
 								}
 						
 
@@ -88,7 +86,6 @@
 						case "run" : {
 								gdb.Send("exec-run" )
 								gdb.Send("interpreter-exec","console","record")	
-								fmt.Println(notif)
 							}
 					
 						//Step 
