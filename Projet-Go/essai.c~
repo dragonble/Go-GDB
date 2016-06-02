@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+int globale := 5 ;
 int max(int a, int b)
 {
 int c=a;

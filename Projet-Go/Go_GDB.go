@@ -84,7 +84,7 @@
 		
 						//Run	
 						case "run" : {
-								gdb.Send("exec-run" )	
+								gdb.Send("exec-run" )
 								gdb.Send("interpreter-exec","console","record")	
 							}
 					
