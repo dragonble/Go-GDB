@@ -240,6 +240,8 @@
 							line:=frameAssert["line"]
 							fmt.Println("function : ",fun ,"  line : ",line)
 						}
+						
+						//quit
 						case "quit":
 						// Default Case					
 						default: fmt.Println("Commandes non valides")  

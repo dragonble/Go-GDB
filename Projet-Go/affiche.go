@@ -3,15 +3,17 @@ package main
 import (
     "fmt"
     "gopkg.in/qml.v1"
+    "github.com/cyrus-and/gdb"
+    "io"
     "os"
-    "io/ioutil"    
-    "path/filepath"
-    "log"
 )
 
 func main() {
 
-	
+    
+
+
+
 
 
     if err := qml.Run(run); err != nil {
@@ -21,33 +23,17 @@ func main() {
 }
 
 func run() error {
-
-	dir, err := filepath.Abs(filepath.Dir(os.Args[1]))
-   	 if err != nil {
-            log.Fatal(err)
-    	}
-
-	
-
-    dat, err2 := ioutil.ReadFile(dir + "/" + os.Args[1])
-    if err2 != nil {
-            log.Fatal(err2)
-    	}
-
-    
-   
     engine := qml.NewEngine()
 
-    component, err := engine.LoadFile(dir + "/main.qml")
+    component, err := engine.LoadFile("texte.qml")
     if err != nil {
         return err
     }
 
     context := engine.Context()
-    context.SetVar("fileOp",&File{Content : string(dat)})
+    context.SetVar("ctrl", &Control{Name: "Enter your name"})
 
     window := component.CreateWindow(nil)
-	
 
     window.Show()
     window.Wait()
@@ -55,9 +41,14 @@ func run() error {
     return nil
 }
 
-type File struct {
+type Control struct {
     Name    string
-    Content string
+    Message string
 }
- 
 
+func (ctrl *Control) Hello() {
+    go func() {
+        ctrl.Message = "Hello, " + ctrl.Name
+        qml.Changed(ctrl, &ctrl.Message)
+    }()
+}
