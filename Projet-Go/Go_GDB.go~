@@ -17,7 +17,7 @@
 			
 
 					  // load and run a program
-					  gdb.Send("file-exec-and-symbols", "essai")
+					  gdb.Send("file-exec-and-symbols", os.Args[1])
 					 
 					  var input string
 					  

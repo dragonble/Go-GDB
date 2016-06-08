@@ -5,6 +5,7 @@
 					  "github.com/cyrus-and/gdb"
 					  "io"
 					  "os"
+					  "path/filepath"
 				)
 
 				func main() {
