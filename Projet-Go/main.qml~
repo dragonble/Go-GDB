@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /****************************************************************************
 **
 ** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
@@ -42,12 +43,15 @@
 
 
 
+=======
+>>>>>>> 6aff207f2b20f09822e381f87f2499a70de62e97
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.0
 
 ApplicationWindow {
     visible: true
+<<<<<<< HEAD
     title: "Basic layouts"
     property int margin: 11
     width: mainLayout.implicitWidth + 2 * margin
@@ -97,8 +101,7 @@ ApplicationWindow {
                 TextField { }
 
                 TextArea {
-                    text: "This widget spans over three rows in the GridLayout.\n"
-                        + "All items in the GridLayout are implicitly positioned from top to bottom."
+                    text:file.Content
                     Layout.rowSpan: 3
                     Layout.fillHeight: true
                     Layout.fillWidth: true
@@ -112,5 +115,54 @@ ApplicationWindow {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
+=======
+    width: 1200
+    height: 600
+
+    SplitView {
+        anchors.fill: parent
+
+        Rectangle {
+            id: column
+            width: 200
+            Layout.minimumWidth: 100
+            Layout.maximumWidth: 300
+            color: "lightsteelblue"
+        }
+
+        SplitView {
+            orientation: Qt.Vertical
+            Layout.fillWidth: true
+
+            Rectangle {
+                id: row1
+                height: 400
+                color: "lightblue"
+                Layout.minimumHeight: 1
+
+		
+
+		TextArea {
+   		    id: textEdit1
+   		     x: 8
+   		     y: 8
+   		     width: row1.width - 20
+    		     height: row1.height - 20
+    		     text: fileOp.content
+   		     font.pixelSize: 18
+		     wrapMode: TextEdit.Wrap
+			clip : true
+
+		        }
+			 
+		    
+            	}
+	
+            Rectangle {
+                id: row2
+                color: "lightgray"
+            }
+        }
+>>>>>>> 6aff207f2b20f09822e381f87f2499a70de62e97
     }
 }

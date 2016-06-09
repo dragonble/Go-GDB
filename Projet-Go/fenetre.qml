@@ -84,21 +84,39 @@ ApplicationWindow {
 		RowLayout {
             anchors.fill: parent
 		ToolButton {
-				iconSource: "Ressources/back.png"		
+				iconSource: "Ressources/back.png"	
+				onClicked: "Action"	
 			}
 		ToolButton {
 
-				iconSource: "Ressources/run.png"		
+				iconSource: "Ressources/run.png"	
+				onClicked: "Action"		
 			}
 			
 		ToolButton {
 
 				iconSource: "Ressources/step.png"
+				onClicked: "Action"	
 			}
 		ToolButton {
 			
-				iconSource: "Ressources/continue.png"		
+				iconSource: "Ressources/continue.png"
+				onClicked: "Action"			
 			}
+
+		ToolButton {
+			
+				iconSource: "Ressources/backtrace.png"	
+				onClicked: "Action"		
+			}
+
+		ToolButton {
+			
+				iconSource: "Ressources/variables.png"	
+				onClicked: "Action"	
+	
+			}
+
 		
 			
 			Item { Layout.fillWidth: true }

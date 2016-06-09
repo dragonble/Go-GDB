@@ -43,79 +43,14 @@
 
 
 
-=======
->>>>>>> 6aff207f2b20f09822e381f87f2499a70de62e97
+
 import QtQuick 2.2
 import QtQuick.Controls 1.1
 import QtQuick.Layouts 1.0
 
 ApplicationWindow {
     visible: true
-<<<<<<< HEAD
-    title: "Basic layouts"
-    property int margin: 11
-    width: mainLayout.implicitWidth + 2 * margin
-    height: mainLayout.implicitHeight + 2 * margin
-    minimumWidth: mainLayout.Layout.minimumWidth + 2 * margin
-    minimumHeight: mainLayout.Layout.minimumHeight + 2 * margin
 
-    ColumnLayout {
-        id: mainLayout
-        anchors.fill: parent
-        anchors.margins: margin
-        GroupBox {
-            id: rowBox
-            title: "Row layout"
-            Layout.fillWidth: true
-
-            RowLayout {
-                id: rowLayout
-                anchors.fill: parent
-                TextField {
-                    placeholderText: "This wants to grow horizontally"
-                    Layout.fillWidth: true
-                }
-                Button {
-                    text: "Button"
-                }
-            }
-        }
-
-        GroupBox {
-            id: gridBox
-            title: "Grid layout"
-            Layout.fillWidth: true
-
-            GridLayout {
-                id: gridLayout
-                rows: 3
-                flow: GridLayout.TopToBottom
-                anchors.fill: parent
-
-                Label { text: "Line 1" }
-                Label { text: "Line 2" }
-                Label { text: "Line 3" }
-
-                TextField { }
-                TextField { }
-                TextField { }
-
-                TextArea {
-                    text:file.Content
-                    Layout.rowSpan: 3
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                }
-            }
-        }
-        TextArea {
-            id: t3
-            text: "This fills the whole cell"
-            Layout.minimumHeight: 30
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-        }
-=======
     width: 1200
     height: 600
 
@@ -163,6 +98,6 @@ ApplicationWindow {
                 color: "lightgray"
             }
         }
->>>>>>> 6aff207f2b20f09822e381f87f2499a70de62e97
+
     }
 }
