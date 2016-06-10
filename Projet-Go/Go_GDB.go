@@ -7,18 +7,18 @@
 					  "os"
 					  //"path/filepath"
 				)
-					
+					var debug *gdb.Gdb
 				func main() {
 
 
 					  // start a new instance and pipe the target output to stdout
-					  gdb, _ := gdb.New(nil)
-					  go io.Copy(os.Stdout, gdb	)
+					  debug, _ = gdb.New(nil)
+					  go io.Copy(os.Stdout, debug)
 
 			
 
 					  // load and run a program
-					  gdb.Send("file-exec-and-symbols", os.Args[1])
+					  debug.Send("file-exec-and-symbols", os.Args[1])
 					 
 					  var input string
 					  
@@ -29,11 +29,11 @@
 						switch input {
 						
 						//Break
-						case "break": breake(gdb)
+						case "break": breake()
 						
 
 						//Break List						
-						case "break-list" : breaklist(gdb)
+						case "break-list" : breaklist()
 
 						
 						//Break delete						
@@ -43,44 +43,44 @@
 							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
 							fmt.Scanln(&numero_break )
 							if numero_break != "" {
-							gdb.Send("break-delete", numero_break )
+							debug.Send("break-delete", numero_break )
 						} else {
-							gdb.Send("break-delete")
+							debug.Send("break-delete")
 							}			
 						}
 		
 						//Run	
-						case "run" : run(gdb)
+						case "run" : run()
 					
 						//Step 
-						case "step" : step(gdb)
+						case "step" : step()
 
 						//Reverse Stepping
-						case "step-reverse" :step_reverse(gdb)
+						case "step-reverse" :step_reverse()
 						
 						// Continue
-						case "continue" :  continuee(gdb)
+						case "continue" :  continuee()
 
 						//Reverse continue 
-						case "continue-reverse" : continue_reverse(gdb)
+						case "continue-reverse" : continue_reverse()
 
 
 						//Print
-						case "print" : print(gdb)
+						case "print" : print()
 
 						//List variables locals
-						case "list-variables" : list_variables (gdb)
+						case "list-variables" : list_variables ()
 
 						
 						//Backtrace
 
-						case "backtrace" :backtrace(gdb)
+						case "backtrace" :backtrace()
 
 						//Watchpoints
-						case "watch" : watch(gdb)
+						case "watch" : watch()
 
 						//Where
-						case "where" : where (gdb)
+						case "where" : where ()
 						
 						//quit
 						case "quit":
@@ -91,18 +91,18 @@
 					  
 				}	
 
-					  gdb.Exit()
+					  debug.Exit()
 	}
 
-	func run (gdb *gdb.Gdb){
+	func run (){
 					
-				fmt.Println(gdb.Send("exec-run"))
-				gdb.Send("interpreter-exec","console","record")	
+				fmt.Println(debug.Send("exec-run"))
+				debug.Send("interpreter-exec","console","record")	
 
 			}
-	func step(gdb *gdb.Gdb){
+	func step(){
 		
-		 output, err := gdb.Send("exec-step")
+		 output, err := debug.Send("exec-step")
 			if err != nil {
 						fmt.Println(err)		
 						}
@@ -111,9 +111,9 @@
 							fmt.Println("Notification : ", notif) 
 		
 	}
-	func breaklist(gdb *gdb.Gdb){
+	func breaklist(){
 
-			output,err :=gdb.Send("break-list")
+			output,err :=debug.Send("break-list")
 						if err !=nil {
 							fmt.Println(err)				
 							}
@@ -160,8 +160,8 @@
 
 	}*/
 
-	func step_reverse(gdb *gdb.Gdb){
-		output,err := gdb.Send("exec-step","--reverse")
+	func step_reverse(){
+		output,err := debug.Send("exec-step","--reverse")
 								if err != nil {
 									fmt.Println(err)		
 									}
@@ -170,8 +170,8 @@
 							fmt.Println("Notification : ",notif) 
 		}
 
-	func continuee(gdb *gdb.Gdb){
-			output,err := gdb.Send("exec-continue")
+	func continuee(){
+			output,err := debug.Send("exec-continue")
 			if err != nil {
 					fmt.Println(err)		
 						}
@@ -179,8 +179,8 @@
 				notif := output["class"]
 				fmt.Println("Notification : ",notif) 
 		}
-	func continue_reverse(gdb *gdb.Gdb){
-			output,err := gdb.Send("exec-continue","--reverse")
+	func continue_reverse(){
+			output,err := debug.Send("exec-continue","--reverse")
 
 								if err != nil {
 								fmt.Println(err)		
@@ -189,10 +189,10 @@
 								notif := output["class"]
 								fmt.Println("Notification : ",notif) 
 		}
-	func backtrace(gdb *gdb.Gdb){
+	func backtrace(){
 			
 				
-								output,_:=gdb.Send("stack-list-frames")
+								output,_:=debug.Send("stack-list-frames")
 								pay:=output["payload"]
 
 								payAssert:=pay.(map[string]interface{})
@@ -216,18 +216,18 @@
 								}
 		}
 
-	func watch(gdb *gdb.Gdb){
+	func watch(){
 
 				var input_watch string
 				
 				fmt.Println("Rentrez la variable suivi")
 				fmt.Scanln(&input_watch)
-				fmt.Println(gdb.Send("break-watch", input_watch))
+				fmt.Println(debug.Send("break-watch", input_watch))
 		}
 
-	func where (gdb *gdb.Gdb){
+	func where (){
 
-			output,_ := gdb.Send("stack-list-frames")
+			output,_ := debug.Send("stack-list-frames")
 							pay:=output["payload"]
 
 							payAssert:=pay.(map[string]interface{})
@@ -246,15 +246,15 @@
 							fmt.Println("function : ",fun ,"  line : ",line)
 		}
 
-	func breake(gdb *gdb.Gdb){
+	func breake(){
 
 			var input_break string
 			fmt.Println("rentrez votre breakpoint")
 			fmt.Scanln(&input_break)
-			gdb.Send("break-insert", input_break)
+			debug.Send("break-insert", input_break)
 		}
 
-	func print(gdb *gdb.Gdb){
+	func print(){
 
 			var var_gdb string
 			var var_cible string
@@ -265,17 +265,17 @@
 			fmt.Println("rentrez la variable cible")
 			fmt.Scanln(&var_cible)
 		
-			gdb.Send("var-create", var_gdb, "@", var_cible)
-			output,err := gdb.Send("var-evaluate-expression", var_gdb)	
+			debug.Send("var-create", var_gdb, "@", var_cible)
+			output,err := debug.Send("var-evaluate-expression", var_gdb)	
 				if err !=nil{
 								fmt.Println(err)
 						}
 
 			fmt.Println(output["payload"])
 		}
-	func list_variables (gdb *gdb.Gdb){
+	func list_variables (){
 			
-			expr,err := gdb.Send("stack-list-variables", "--all-values")	
+			expr,err := debug.Send("stack-list-variables", "--all-values")	
 									if err !=nil {
 										fmt.Println(err)
 										}
