@@ -5,9 +5,16 @@
 					  "github.com/cyrus-and/gdb"
 					  "io"
 					  "os"
+<<<<<<< HEAD
 					//  "path/filepath"
 				)
 
+=======
+					  //"path/filepath"
+				)
+					var debug *gdb.Gdb
+				func execGdb() {
+>>>>>>> 1f73d3d7cb83604418789a068d99e956f2a10140
 
 				
 					  
@@ -16,13 +23,18 @@
 					
 
 					  // start a new instance and pipe the target output to stdout
+<<<<<<< HEAD
 					 gdb, _ := gdb.New(nil)
 					  go io.Copy(os.Stdout, gdb)
+=======
+					  debug, _ = gdb.New(nil)
+					  go io.Copy(os.Stdout, debug)
+>>>>>>> 1f73d3d7cb83604418789a068d99e956f2a10140
 
 			
 
 					  // load and run a program
-					  gdb.Send("file-exec-and-symbols", os.Args[1])
+					  debug.Send("file-exec-and-symbols", os.Args[1])
 					 
 					  var input string
 					  
@@ -33,17 +45,95 @@
 						switch input {
 						
 						//Break
-						case "break": {
-							var input_break string
-								fmt.Println("rentrez votre breakpoint")
-								fmt.Scanln(&input_break)
-								gdb.Send("break-insert", input_break)
-								}
+						case "break": breake()
 						
 
 						//Break List						
-						case "break-list" : {
-								output,err :=gdb.Send("break-list")
+						case "break-list" : breaklist()
+
+						
+						//Break delete						
+						case "delete" : 
+{
+							var numero_break string		
+							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
+							fmt.Scanln(&numero_break )
+							if numero_break != "" {
+<<<<<<< HEAD
+							fmt.Println(gdb.Send("break-delete",numero_break ))
+=======
+							debug.Send("break-delete", numero_break )
+>>>>>>> 1f73d3d7cb83604418789a068d99e956f2a10140
+						} else {
+							debug.Send("break-delete")
+							}			
+						}
+		
+						//Run	
+						case "run" : start()
+					
+						//Step 
+						case "step" : step()
+
+						//Reverse Stepping
+						case "step-reverse" :step_reverse()
+						
+						// Continue
+						case "continue" :  continuee()
+
+						//Reverse continue 
+						case "continue-reverse" : continue_reverse()
+
+
+						//Print
+						case "print" : print()
+
+						//List variables locals
+						case "list-variables" : list_variables ()
+
+						
+						//Backtrace
+
+						case "backtrace" :backtrace()
+
+						//Watchpoints
+						case "watch" : watch()
+
+						//Where
+						case "where" : where ()
+						
+						//quit
+						case "quit":
+						// Default Case					
+						default: fmt.Println("Commandes non valides")  
+
+					}
+					  
+				}	
+
+					  debug.Exit()
+	}
+
+	func start() (){
+					
+				fmt.Println(debug.Send("exec-run"))
+				debug.Send("interpreter-exec","console","record")	
+
+			}
+	func step(){
+		
+		 output, err := debug.Send("exec-step")
+			if err != nil {
+						fmt.Println(err)		
+						}
+					
+							notif := output["class"]
+							fmt.Println("Notification : ", notif) 
+		
+	}
+	func breaklist(){
+
+			output,err :=debug.Send("break-list")
 						if err !=nil {
 							fmt.Println(err)				
 							}
@@ -73,63 +163,44 @@
 							fmt.Println("number:",number,"type:",typeB,"enabled:",enabled,"times:",times,"disp:",disp,"function:",fun,"line:",line)
 						}
 
-				}
+
+		}
+	/*func delete_break(gdb *gdb.Gdb){
+				
+						var numero_break string		
+				
+						fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
+						fmt.Scanln(&numero_break )
 						
-						//Break delete						
-						case "delete" : {
-							var numero_break string		
-							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
-							fmt.Scanln(&numero_break )
-							if numero_break != "" {
-							fmt.Println(gdb.Send("break-delete",numero_break ))
+						if numero_break != "" {
+							gdb.Send("break-delete","numero_break" )
 						} else {
 							gdb.Send("break-delete")
-							}			
-						}
-		
-						//Run	
-						case "run" : {
-								gdb.Send("exec-run" )
-								gdb.Send("interpreter-exec","console","record")	
-							}
-					
-						//Step 
-						case "step" : {
-							 output, err := gdb.Send("exec-step")
-								if err != nil {
-									fmt.Println(err)		
-										}
-					
-							notif := output["class"]
-							fmt.Println("Notification : ", notif) 
-					}
+							}	
 
-						//Reverse Stepping
-						case "step-reverse" : {
-							output,err := gdb.Send("exec-step","--reverse")
+	}*/
+
+	func step_reverse(){
+		output,err := debug.Send("exec-step","--reverse")
 								if err != nil {
 									fmt.Println(err)		
 									}
 					
 							notif := output["class"]
 							fmt.Println("Notification : ",notif) 
-								
-						}
-						
-						// Continue
-						case "continue" : {
-							output,err := gdb.Send("exec-continue")
-							if err != nil {
-								fmt.Println(err)		
-									}
-					
-							notif := output["class"]
-							fmt.Println("Notification : ",notif) 			
-						}
+		}
 
-						//Reverse continue 
-						case "continue-reverse" : {
-							output,err := gdb.Send("exec-continue","--reverse")
+	func continuee(){
+			output,err := debug.Send("exec-continue")
+			if err != nil {
+					fmt.Println(err)		
+						}
+					
+				notif := output["class"]
+				fmt.Println("Notification : ",notif) 
+		}
+	func continue_reverse(){
+			output,err := debug.Send("exec-continue","--reverse")
 
 								if err != nil {
 								fmt.Println(err)		
@@ -137,32 +208,101 @@
 					
 								notif := output["class"]
 								fmt.Println("Notification : ",notif) 
-						}
+		}
+	func backtrace(){
+			
+				
+								output,_:=debug.Send("stack-list-frames")
+								pay:=output["payload"]
 
-						//Print
-						case "print" : {
+								payAssert:=pay.(map[string]interface{})
+				
+								stack:=payAssert["stack"]
 							
-								var var_gdb string
-								var var_cible string
-		
-								fmt.Println("Entrez le nom de la variable")
-								fmt.Scanln(&var_gdb)
-		
-						      	fmt.Println("rentrez la variable cible")
-								fmt.Scanln(&var_cible)
-		
-								gdb.Send("var-create", var_gdb, "@", var_cible)
-								output,err := gdb.Send("var-evaluate-expression", var_gdb)	
-									if err !=nil{
-										fmt.Println(err)
-									}
+								stackAssert:=stack.([]interface{})
+								nbreFct:=len(stackAssert)
+								for i:=0; i<=nbreFct-1 ; i++{
+									stackSepare:=stackAssert[i]
+									stackSepareAssert:=stackSepare.(map[string]interface{})
+								
+									frame:=stackSepareAssert["frame"]
+									frameAssert:=frame.(map[string]interface{})
+									
+									
+									
+									//fmt.Println(debug.Send("stack-list-variables",frameselect, "--simple-values"))
 
-									fmt.Println(output["payload"])
+									fun:=frameAssert["func"]
+									line:=frameAssert["line"]
+									level:=frameAssert["level"]
+									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
+									
+									/*frameselect,thread := debug.Send("stack-select-frame",)
+									fmt.Println(frameselect)
+									fmt.Println(thread)*/
+								}
+		}
+
+	func watch(){
+
+				var input_watch string
+				
+				fmt.Println("Rentrez la variable suivi")
+				fmt.Scanln(&input_watch)
+				fmt.Println(debug.Send("break-watch", input_watch))
+		}
+
+	func where (){
+
+			output,_ := debug.Send("stack-list-frames")
+							pay:=output["payload"]
+
+							payAssert:=pay.(map[string]interface{})
+				
+							stack:=payAssert["stack"]
+							stackAssert:=stack.([]interface{})
+							
+							//Premier stack			
+							stackSepare:=stackAssert[0]
+							stackSepareAssert:=stackSepare.(map[string]interface{})
+								
+							frame:=stackSepareAssert["frame"]
+							frameAssert:=frame.(map[string]interface{})
+							fun:=frameAssert["func"]
+							line:=frameAssert["line"]
+							fmt.Println("function : ",fun ,"  line : ",line)
+		}
+
+	func breake(){
+
+			var input_break string
+			fmt.Println("rentrez votre breakpoint")
+			fmt.Scanln(&input_break)
+			debug.Send("break-insert", input_break)
+		}
+
+	func print(){
+
+			var var_gdb string
+			var var_cible string
+		
+			fmt.Println("Entrez le nom de la variable")
+			fmt.Scanln(&var_gdb)
+		
+			fmt.Println("rentrez la variable cible")
+			fmt.Scanln(&var_cible)
+		
+			debug.Send("var-create", var_gdb, "@", var_cible)
+			output,err := debug.Send("var-evaluate-expression", var_gdb)	
+				if err !=nil{
+								fmt.Println(err)
 						}
 
-						//List variables locals
-						case "list-variables" : {
-									expr,err := gdb.Send("stack-list-variables", "--all-values")	
+			fmt.Println(output["payload"])
+		}
+	func list_variables (){
+			
+			expr,err := debug.Send("stack-list-variables", "--all-values")	
 									if err !=nil {
 										fmt.Println(err)
 										}
@@ -184,301 +324,6 @@
 								
 							}
 				
-															
-						}
-						
-						//Backtrace
 
-						case "backtrace" : {
-
-								
-								output,_:=gdb.Send("stack-list-frames")
-								pay:=output["payload"]
-
-								payAssert:=pay.(map[string]interface{})
-				
-								stack:=payAssert["stack"]
-							
-								stackAssert:=stack.([]interface{})
-								nbreFct:=len(stackAssert)
-								for i:=0; i<=nbreFct-1 ; i++{
-									stackSepare:=stackAssert[i]
-									stackSepareAssert:=stackSepare.(map[string]interface{})
-								
-									frame:=stackSepareAssert["frame"]
-									frameAssert:=frame.(map[string]interface{})
-									fun:=frameAssert["func"]
-									line:=frameAssert["line"]
-									level:=frameAssert["level"]
-									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
-
-								
-								}
-							
-							}
-
-						//Watchpoints
-						case "watch" : {
-								var input_watch string
-								fmt.Println("Rentrez la vairable suivi")
-								fmt.Scanln(&input_watch)
-								fmt.Println(gdb.Send("break-watch", input_watch))
-						}
-
-						//Where
-						case "where" :{
-							output,_ := gdb.Send("stack-list-frames")
-							pay:=output["payload"]
-
-							payAssert:=pay.(map[string]interface{})
-				
-							stack:=payAssert["stack"]
-							stackAssert:=stack.([]interface{})
-							
-							//Premier stack			
-							stackSepare:=stackAssert[0]
-							stackSepareAssert:=stackSepare.(map[string]interface{})
-								
-							frame:=stackSepareAssert["frame"]
-							frameAssert:=frame.(map[string]interface{})
-							fun:=frameAssert["func"]
-							line:=frameAssert["line"]
-							fmt.Println("function : ",fun ,"  line : ",line)
-						}
-						
-						//quit
-						case "quit":
-						// Default Case					
-						default: fmt.Println("Commandes non valides")  
-
-}
-					  
-					/*//Continue
-					 if input == "continue" {
-					  		output,err := gdb.Send("exec-continue")
-							if err != nil {
-								fmt.Println(err)		
-									}
-					
-							notif := output["class"]
-							fmt.Println("Notification : ",notif) 
-					  }
-
-					//Reverse continue 
-					if input =="continue-reverse"{
-						output,err := gdb.Send("exec-continue","--reverse")
-
-								if err != nil {
-								fmt.Println(err)		
-									}
-					
-								notif := output["class"]
-								fmt.Println("Notification : ",notif) 
-				}
-
-					//Step
-					  if input == "step" {
-					  output, err := gdb.Send("exec-step")
-					if err != nil {
-					fmt.Println(err)		
-					}
-					
-					notif := output["class"]
-					fmt.Println("Notification : ", notif) 
-			}
-					//Reverse stepping
-					if input == "step-reverse" {
-							output,err := gdb.Send("exec-step","--reverse")
-							if err != nil {
-								fmt.Println(err)		
-									}
-					
-					notif := output["class"]
-					fmt.Println("Notification : ",notif) 
-					
-					}
-
-					
-					//BREAK
-					  if input == "break" {
-					var input_break string
-					fmt.Println("rentrez votre breakpoint")
-					fmt.Scanln(&input_break)
-					gdb.Send("break-insert", input_break)
-					}
-		
-					//Breakpoints list
-					  if input == "break-list" {
-						output,err :=gdb.Send("break-list")
-						if err !=nil {
-							fmt.Println(err)				
-							}
-
-						pay:=output["payload"]
-						payAssert := pay.(map[string]interface {})
-					
-						breakpointTable := payAssert["BreakpointTable"]
-						breakpointTableAssert := breakpointTable.(map[string]interface {})
-					
-						Array := breakpointTableAssert["body"]
-						ArrayAssert := Array.([]interface{})
-						nbreVar:=len(ArrayAssert)
-					
-						for i:=0; i<=nbreVar-1 ; i++{
-							mapSepare := ArrayAssert[i]
-							mapSepareAssert := mapSepare.(map[string]interface {})
-							bkpt := mapSepareAssert["bkpt"]
-							bkptAssert := bkpt.(map[string]interface {})
-							number:=bkptAssert["number"]
-							typeB :=bkptAssert["type"]
-							enabled :=bkptAssert["enabled"]
-							times :=bkptAssert["times"]
-							disp :=bkptAssert["disp"]
-							fun :=bkptAssert["func"]
-							line :=bkptAssert["line"]
-							fmt.Println("number:",number,"type:",typeB,"enabled:",enabled,"times:",times,"disp:",disp,"function:",fun,"line:",line)
-						}
-
-					}
-
-					//Break delete
-					if input == "delete" {
-							var numero_break string		
-							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
-							fmt.Scanln(&numero_break )
-							if numero_break != "" {
-							gdb.Send("break-delete",numero_break )
-						} else {
-							gdb.Send("break-delete")
-							}
-		
-					}
-
-					//Print
-					  if input == "print" {
-		
-					var var_gdb string
-					var var_cible string
-		
-					fmt.Println("Entrez le nom de la variable")
-					fmt.Scanln(&var_gdb)
-		
-						      fmt.Println("rentrez la variable cible")
-					fmt.Scanln(&var_cible)
-		
-					gdb.Send("var-create", var_gdb, "@", var_cible)
-					output,err := gdb.Send("var-evaluate-expression", var_gdb)	
-					if err !=nil{
-						fmt.Println(err)
-						}
-
-					fmt.Println(output["payload"])
-					}
-		
-					//Run
-					  if input == "run" {
-					gdb.Send("exec-run" )	
-					gdb.Send("interpreter-exec","console","record")	
-					}
-
-				
-						  //List of Variables locals
-					  if input == "list-variables" {
-
-				
-						expr,err := gdb.Send("stack-list-variables", "--all-values")	
-						if err !=nil {
-							fmt.Println(err)
-						}
-
-						variables := expr["payload"]
-				
-						variablesAssert := variables.(map[string]interface {})
-						Array := variablesAssert["variables"]
-						ArrayAssert := Array.([]interface{})
-						nbreVar:=len(ArrayAssert)
-						for i:=0; i<=nbreVar-1 ; i++{
-							mapListe := ArrayAssert[i]
-							mapListeAssert := mapListe.(map[string]interface {})
-							name := mapListeAssert["name"]
-							value := mapListeAssert["value"]
-							arg := mapListeAssert["arg"]
-							fmt.Println("name : ", name , "value : ",value , "arg : ",arg)
-								
-						}
-				
-
-					}
-
-
-				
-							//Backtrace
-						  if input == "backtrace"{
-
-								output,_:=gdb.Send("stack-list-frames")
-								pay:=output["payload"]
-
-								payAssert:=pay.(map[string]interface{})
-				
-								stack:=payAssert["stack"]
-							
-								stackAssert:=stack.([]interface{})
-								nbreFct:=len(stackAssert)
-								for i:=0; i<=nbreFct-1 ; i++{
-									stackSepare:=stackAssert[i]
-									stackSepareAssert:=stackSepare.(map[string]interface{})
-								
-									frame:=stackSepareAssert["frame"]
-									frameAssert:=frame.(map[string]interface{})
-									fun:=frameAssert["func"]
-									line:=frameAssert["line"]
-									level:=frameAssert["level"]
-									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
-
-								
-								}
-							
-							
-
-						} 
-
-					//Watcpoints
-					if input == "watch" {
-						var input_watch string
-						fmt.Println("Rentrez la vairable suivi")
-						fmt.Scanln(&input_watch)
-						fmt.Println(gdb.Send("break-watch", input_watch))
-
-					}
-						
-					
-					
-					//Where
-				if input == "where" {
-						output,_ := gdb.Send("stack-list-frames")
-							pay:=output["payload"]
-
-							payAssert:=pay.(map[string]interface{})
-				
-							stack:=payAssert["stack"]
-							stackAssert:=stack.([]interface{})
-							
-							//Premier stack			
-							stackSepare:=stackAssert[0]
-							stackSepareAssert:=stackSepare.(map[string]interface{})
-								
-							frame:=stackSepareAssert["frame"]
-							frameAssert:=frame.(map[string]interface{})
-							fun:=frameAssert["func"]
-							line:=frameAssert["line"]
-							fmt.Println("function : ",fun ,"  line : ",line)
-
-				}*/
- 	}
-	
-
-					  gdb.Exit()
-				}
-
-
+		}
 
