@@ -8,7 +8,7 @@
 					  //"path/filepath"
 				)
 					var debug *gdb.Gdb
-				func execGdb() {
+				func main() {
 
 
 					  // start a new instance and pipe the target output to stdout
