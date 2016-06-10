@@ -5,37 +5,25 @@
 					  "github.com/cyrus-and/gdb"
 					  "io"
 					  "os"
-<<<<<<< HEAD
-					//  "path/filepath"
-				)
 
-=======
 					  //"path/filepath"
 				)
 					var debug *gdb.Gdb
+
 				func execGdb() {
->>>>>>> 1f73d3d7cb83604418789a068d99e956f2a10140
+
 
 				
-					  
-
-				func main() {
-					
-
-					  // start a new instance and pipe the target output to stdout
-<<<<<<< HEAD
-					 gdb, _ := gdb.New(nil)
-					  go io.Copy(os.Stdout, gdb)
-=======
+				
 					  debug, _ = gdb.New(nil)
 					  go io.Copy(os.Stdout, debug)
->>>>>>> 1f73d3d7cb83604418789a068d99e956f2a10140
+
 
 			
 
 					  // load and run a program
 					  debug.Send("file-exec-and-symbols", os.Args[1])
-					 
+/*					 
 					  var input string
 					  
 				 for input != "quit"   {
@@ -59,11 +47,11 @@
 							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
 							fmt.Scanln(&numero_break )
 							if numero_break != "" {
-<<<<<<< HEAD
+
 							fmt.Println(gdb.Send("break-delete",numero_break ))
-=======
+
 							debug.Send("break-delete", numero_break )
->>>>>>> 1f73d3d7cb83604418789a068d99e956f2a10140
+
 						} else {
 							debug.Send("break-delete")
 							}			
@@ -106,7 +94,7 @@
 						case "quit":
 						// Default Case					
 						default: fmt.Println("Commandes non valides")  
-
+*/
 					}
 					  
 				}	

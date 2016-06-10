@@ -1,19 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-/****************************************************************************
-**
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
-** Contact: http://www.qt-project.org/legal
-**
-** This file is part of the Qt Quick Controls module of the Qt Toolkit.
-**
-** $QT_BEGIN_LICENSE:BSD$
-** You may use this file under the terms of the BSD license as follows:
-**
-** "Redistribution and use in source and binary forms, with or without
-** modification, are permitted provided that the following conditions are
-** met:
 
 import QtQuick 2.2
 import QtQuick.Controls 1.1
@@ -119,20 +103,24 @@ ApplicationWindow {
             anchors.fill: parent
 		ToolButton {
 				iconSource: "Ressources/back.png"
+				onClicked : fileOp.DebugReverse()
 						
 			}
 		ToolButton {
 
-				iconSource: "Ressources/run.png"		
+				iconSource: "Ressources/run.png"
+				onClicked : fileOp.DebugRun()	
 			}
 			
 		ToolButton {
 
 				iconSource: "Ressources/step.png"
+				onClicked : fileOp.DebugStep()
 			}
 		ToolButton {
 			
-				iconSource: "Ressources/continue.png"		
+				iconSource: "Ressources/continue.png"	
+				onClicked : fileOp.DebugContinue()	
 			}
 		
 			

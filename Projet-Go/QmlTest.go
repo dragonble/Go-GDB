@@ -59,11 +59,21 @@ type File struct {
     Name    string
     Content string
 }
- /*
+ 
 func (file *File) DebugRun() string {  
-        GDBrun() 
+        start() 
+}
+func (file *File) DebugStep() string {  
+        step() 
+}
+func (file *File) DebugContinue() string {  
+        continuee() 
 }
 
-*/
+func (file *File) DebugReverse() string {  
+        
+	step_reverse()
+}
+
 
 
