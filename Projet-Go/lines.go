@@ -4,9 +4,9 @@ import (
     "fmt"
     "gopkg.in/qml.v1"
     "os"
-    "io/ioutil"    
-    "path/filepath"
-    "log"
+   // "io/ioutil"    
+ //   "path/filepath"
+   // "log"
 )
 
 func main() {
@@ -21,7 +21,7 @@ func main() {
 }
 
 func run() error {
-
+/*
 	dir, err := filepath.Abs(filepath.Dir(os.Args[1]))
    	 if err != nil {
             log.Fatal(err)
@@ -33,18 +33,17 @@ func run() error {
     if err2 != nil {
             log.Fatal(err2)
     	}
-
+*/
     
    
     engine := qml.NewEngine()
 
-    component, err := engine.LoadFile(dir + "/main.qml")
+    component, err := engine.LoadFile("color.qml")
     if err != nil {
         return err
     }
 
-    context := engine.Context()
-    context.SetVar("fileOp",&File{Content : string(dat)})
+    
 
     window := component.CreateWindow(nil)
 	
@@ -54,16 +53,3 @@ func run() error {
 
     return nil
 }
-
-type File struct {
-    Name    string
-    Content string
-}
- /*
-func (file *File) DebugRun() string {  
-        GDBrun() 
-}
-
-*/
-
-

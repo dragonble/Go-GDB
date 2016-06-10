@@ -5,14 +5,18 @@
 					  "github.com/cyrus-and/gdb"
 					  "io"
 					  "os"
-					  "path/filepath"
+					//  "path/filepath"
 				)
 
-				func main() {
 
+				
+					  
+
+				func main() {
+					
 
 					  // start a new instance and pipe the target output to stdout
-					  gdb, _ := gdb.New(nil)
+					 gdb, _ := gdb.New(nil)
 					  go io.Copy(os.Stdout, gdb)
 
 			
@@ -77,7 +81,7 @@
 							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
 							fmt.Scanln(&numero_break )
 							if numero_break != "" {
-							gdb.Send("break-delete",numero_break )
+							fmt.Println(gdb.Send("break-delete",numero_break ))
 						} else {
 							gdb.Send("break-delete")
 							}			
