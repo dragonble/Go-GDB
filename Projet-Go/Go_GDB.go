@@ -8,7 +8,7 @@
 					  //"path/filepath"
 				)
 					var debug *gdb.Gdb
-				func start() {
+				func execGdb() {
 
 
 					  // start a new instance and pipe the target output to stdout
@@ -50,7 +50,7 @@
 						}
 		
 						//Run	
-						case "run" : run()
+						case "run" : start()
 					
 						//Step 
 						case "step" : step()
@@ -94,7 +94,7 @@
 					  debug.Exit()
 	}
 
-	func run (){
+	func start() (){
 					
 				fmt.Println(debug.Send("exec-run"))
 				debug.Send("interpreter-exec","console","record")	
@@ -207,12 +207,19 @@
 								
 									frame:=stackSepareAssert["frame"]
 									frameAssert:=frame.(map[string]interface{})
+									
+									
+									
+									//fmt.Println(debug.Send("stack-list-variables",frameselect, "--simple-values"))
+
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]
 									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
-
-								
+									
+									/*frameselect,thread := debug.Send("stack-select-frame",)
+									fmt.Println(frameselect)
+									fmt.Println(thread)*/
 								}
 		}
 
