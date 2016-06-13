@@ -41,35 +41,35 @@ ApplicationWindow {
             anchors.fill: parent
 		ToolButton {
 				iconSource: "Ressources/back.png"	
-				onClicked: "Action"	
+				//onClicked: "Action"	
 			}
 		ToolButton {
 
 				iconSource: "Ressources/run.png"	
-				onClicked: "Action"		
+				//onClicked: "Action"		
 			}
 			
 		ToolButton {
 
 				iconSource: "Ressources/step.png"
-				onClicked: "Action"	
+				//onClicked: "Action"	
 			}
 		ToolButton {
 			
 				iconSource: "Ressources/continue.png"
-				onClicked: "Action"			
+				//onClicked: "Action"			
 			}
 
 		ToolButton {
 			
 				iconSource: "Ressources/backtrace.png"	
-				onClicked: "Action"		
+				//onClicked: "Action"		
 			}
 
 		ToolButton {
 			
 				iconSource: "Ressources/variables.png"	
-				onClicked: "Action"	
+				//onClicked: "Action"	
 	
 			}
 
