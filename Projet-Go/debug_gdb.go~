@@ -7,8 +7,8 @@
 					  "os"
 					  //"path/filepath"
 				)
-					var debug *gdb.Gdb
-				func execGdb() {
+					var debug gdb.Gdb
+				func main() {
 
 
 					  // start a new instance and pipe the target output to stdout
@@ -209,17 +209,15 @@
 									frameAssert:=frame.(map[string]interface{})
 									
 									
-									
-									//fmt.Println(debug.Send("stack-list-variables",frameselect, "--simple-values"))
+									//list variables by frame 
+									fmt.Println(debug.Send("stack-list-variables","--thread","1", "--frame",string(i), "--simple-values"))
 
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]
 									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
 									
-									/*frameselect,thread := debug.Send("stack-select-frame",)
-									fmt.Println(frameselect)
-									fmt.Println(thread)*/
+									
 								}
 		}
 

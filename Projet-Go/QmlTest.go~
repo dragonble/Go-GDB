@@ -60,7 +60,7 @@ type File struct {
     Content string
 }
  
-func (file *File) DebugRun() string {  
+/*func (file *File) DebugRun() string {  
         start() 
 }
 func (file *File) DebugStep() string {  
@@ -73,7 +73,7 @@ func (file *File) DebugContinue() string {
 func (file *File) DebugReverse() string {  
         
 	step_reverse()
-}
+}*/
 
 
 

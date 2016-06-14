@@ -5,102 +5,24 @@
 					  "github.com/cyrus-and/gdb"
 					  "io"
 					  "os"
-					  //"path/filepath"
+					  "log"
+					  "path/filepath"
+					  "gopkg.in/qml.v1"
+					  "io/ioutil"
 				)
-					var debug *gdb.Gdb
-				func main() {
-
-
-					  // start a new instance and pipe the target output to stdout
-					  debug, _ = gdb.New(nil)
-					  go io.Copy(os.Stdout, debug)
-
 			
+	type Mygdb struct {
+		*gdb.Gdb
+}
+	var debug Mygdb
 
-					  // load and run a program
-					  debug.Send("file-exec-and-symbols", os.Args[1])
-					 
-					  var input string
-					  
-				 for input != "quit"   {
-					  fmt.Println("Que voulez-vous faire ?")
-					  fmt.Scanln(&input)
-					
-						switch input {
-						
-						//Break
-						case "break": breake()
-						
-
-						//Break List						
-						case "break-list" : breaklist()
-
-						
-						//Break delete						
-						case "delete" : 
-{
-							var numero_break string		
-							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
-							fmt.Scanln(&numero_break )
-							if numero_break != "" {
-							debug.Send("break-delete", numero_break )
-						} else {
-							debug.Send("break-delete")
-							}			
-						}
-		
-						//Run	
-						case "run" : start()
-					
-						//Step 
-						case "step" : step()
-
-						//Reverse Stepping
-						case "step-reverse" :step_reverse()
-						
-						// Continue
-						case "continue" :  continuee()
-
-						//Reverse continue 
-						case "continue-reverse" : continue_reverse()
-
-
-						//Print
-						case "print" : print()
-
-						//List variables locals
-						case "list-variables" : list_variables ()
-
-						
-						//Backtrace
-
-						case "backtrace" :backtrace()
-
-						//Watchpoints
-						case "watch" : watch()
-
-						//Where
-						case "where" : where ()
-						
-						//quit
-						case "quit":
-						// Default Case					
-						default: fmt.Println("Commandes non valides")  
-
-					}
-					  
-				}	
-
-					  debug.Exit()
-	}
-
-	func start() (){
+	func (debug *Mygdb) start(){
 					
 				fmt.Println(debug.Send("exec-run"))
 				debug.Send("interpreter-exec","console","record")	
 
 			}
-	func step(){
+	func(debug *Mygdb) step(){
 		
 		 output, err := debug.Send("exec-step")
 			if err != nil {
@@ -111,7 +33,7 @@
 							fmt.Println("Notification : ", notif) 
 		
 	}
-	func breaklist(){
+	func (debug *Mygdb)breaklist(){
 
 			output,err :=debug.Send("break-list")
 						if err !=nil {
@@ -160,7 +82,7 @@
 
 	}*/
 
-	func step_reverse(){
+	func (debug *Mygdb)step_reverse(){
 		output,err := debug.Send("exec-step","--reverse")
 								if err != nil {
 									fmt.Println(err)		
@@ -170,7 +92,7 @@
 							fmt.Println("Notification : ",notif) 
 		}
 
-	func continuee(){
+	func (debug *Mygdb)continuee(){
 			output,err := debug.Send("exec-continue")
 			if err != nil {
 					fmt.Println(err)		
@@ -179,7 +101,7 @@
 				notif := output["class"]
 				fmt.Println("Notification : ",notif) 
 		}
-	func continue_reverse(){
+	func (debug *Mygdb)continue_reverse(){
 			output,err := debug.Send("exec-continue","--reverse")
 
 								if err != nil {
@@ -189,7 +111,7 @@
 								notif := output["class"]
 								fmt.Println("Notification : ",notif) 
 		}
-	func backtrace(){
+	func (debug *Mygdb)backtrace(){
 			
 				
 								output,_:=debug.Send("stack-list-frames")
@@ -209,19 +131,21 @@
 									frameAssert:=frame.(map[string]interface{})
 									
 									
-									//list variables by frame 
-									fmt.Println(debug.Send("stack-list-variables","--thread","1", "--frame",string(i), "--simple-values"))
+									
+									//fmt.Println(debug.Send("stack-list-variables",frameselect, "--simple-values"))
 
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]
 									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
 									
-									
+									/*frameselect,thread := debug.Send("stack-select-frame",)
+									fmt.Println(frameselect)
+									fmt.Println(thread)*/
 								}
 		}
 
-	func watch(){
+	func (debug *Mygdb)watch(){
 
 				var input_watch string
 				
@@ -230,7 +154,7 @@
 				fmt.Println(debug.Send("break-watch", input_watch))
 		}
 
-	func where (){
+	func (debug *Mygdb)where (){
 
 			output,_ := debug.Send("stack-list-frames")
 							pay:=output["payload"]
@@ -251,7 +175,7 @@
 							fmt.Println("function : ",fun ,"  line : ",line)
 		}
 
-	func breake(){
+	func (debug *Mygdb)breake(){
 
 			var input_break string
 			fmt.Println("rentrez votre breakpoint")
@@ -259,7 +183,7 @@
 			debug.Send("break-insert", input_break)
 		}
 
-	func print(){
+	func (debug *Mygdb)print(){
 
 			var var_gdb string
 			var var_cible string
@@ -278,7 +202,7 @@
 
 			fmt.Println(output["payload"])
 		}
-	func list_variables (){
+	func (debug *Mygdb) list_variables (){
 			
 			expr,err := debug.Send("stack-list-variables", "--all-values")	
 									if err !=nil {
@@ -304,4 +228,67 @@
 				
 
 		}
+
+		func main() {
+
+
+				 if err := qml.Run(run); err != nil {
+        			fmt.Fprintf(os.Stderr, "error: %v\n", err)
+       				 os.Exit(1)
+    		}
+				
+	}
+	
+	func run() error {
+
+	dir, err := filepath.Abs(filepath.Dir(os.Args[1]))
+   	 if err != nil {
+            log.Fatal(err)
+    	}
+
+	
+
+    dat, err2 := ioutil.ReadFile(dir + "/" + os.Args[1])
+    if err2 != nil {
+            log.Fatal(err2)
+    	}
+
+	debug, _ = gdb.New(nil)
+	
+	go io.Copy(os.Stdout, debug)
+
+
+			
+
+	// load and run a program
+	debug.Send("file-exec-and-symbols", os.Args[2])
+
+    
+   
+    engine := qml.NewEngine()
+
+    component, err := engine.LoadFile(dir + "/main.qml")
+    if err != nil {
+        return err
+    }
+
+    context := engine.Context()
+    context.SetVar("fileOp",&File{Content : string(dat)})
+	context.SetVar("debug", &debug)
+
+    window := component.CreateWindow(nil)
+	
+
+    window.Show()
+    window.Wait()
+
+    return nil
+}
+
+type File struct {
+    Name    string
+    Content string
+}
+
+
 

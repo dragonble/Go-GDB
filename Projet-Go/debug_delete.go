@@ -48,7 +48,7 @@ package main
 						fmt.Scanln(&numero_break )
 						
 						
-						debug.Send("break-delete", numero_break))
+						fmt.Println(debug.Send("break-delete",numero_break))
 						
 							
 
@@ -62,7 +62,7 @@ package main
 			debug.Send("break-insert", input_break)
 		}
 
-		func breaklist(){
+	func breaklist(){
 
 			output,err :=debug.Send("break-list")
 						if err !=nil {

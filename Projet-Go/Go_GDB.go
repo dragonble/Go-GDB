@@ -94,10 +94,10 @@
 						case "quit":
 						// Default Case					
 						default: fmt.Println("Commandes non valides")  
-*/
+
 					}
 					  
-				}	
+				}	*/
 
 					  debug.Exit()
 	}

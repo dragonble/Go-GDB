@@ -45,10 +45,10 @@ package main
 						var numero_break string		
 				
 						fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
-						fmt.Scanln(&numero_break )
+						fmt.Scanln(numero_break )
 						
 						
-						debug.Send("break-delete", numero_break))
+						fmt.Println(debug.Send("break-delete",numero_break))
 						
 							
 
@@ -62,7 +62,7 @@ package main
 			debug.Send("break-insert", input_break)
 		}
 
-		func breaklist(){
+	func breaklist(){
 
 			output,err :=debug.Send("break-list")
 						if err !=nil {

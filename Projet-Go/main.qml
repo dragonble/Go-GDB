@@ -11,10 +11,10 @@ ApplicationWindow {
 
     SplitView {
        //anchors.fill: parent
-		anchors.top :tool.bottom
+		anchors.top :	tool.bottom
 		anchors.right : parent.right
 		anchors.left : parent.left
-		anchors.bottom :parent.bottom
+		anchors.bottom : parent.bottom
         Rectangle {
             id: column
             width: 200
@@ -22,7 +22,7 @@ ApplicationWindow {
             Layout.maximumWidth: 300
             color: "lightsteelblue"
 
-
+				
 				TextArea{
 				id: textarea1
 				anchors.left: parent.left
@@ -41,7 +41,7 @@ ApplicationWindow {
         SplitView {
             orientation: Qt.Vertical
             Layout.fillWidth: true
-
+			
             Rectangle {
                 id: row1
                 height: 400
@@ -49,8 +49,7 @@ ApplicationWindow {
                 Layout.minimumHeight: 1
 				
 				
-
-
+				//Colonne de numerotation
 				Rectangle {
 					id: lineColumn
 					property int rowHeight: textarea.font.pixelSize + 3
@@ -120,6 +119,7 @@ ApplicationWindow {
 			}
 		}
 	
+		//Console
          Rectangle {
                 id: row2
                 color: "lightgray"
@@ -144,14 +144,16 @@ ApplicationWindow {
         }
 
     }
+	//Toolbar
 	ToolBar{
 			id : tool
 		RowLayout {
 			
             anchors.fill: parent
 		ToolButton {
+
 				iconSource: "Ressources/back.png"
-				//onClicked : fileOp.DebugReverse()
+				//onClicked : debug.step-reverse
 						
 			}
 		ToolButton {
@@ -163,7 +165,7 @@ ApplicationWindow {
 		ToolButton {
 
 				iconSource: "Ressources/step.png"
-				//onClicked : fileOp.DebugStep()
+				//onClicked : debug.step()
 			}
 		ToolButton {
 			
