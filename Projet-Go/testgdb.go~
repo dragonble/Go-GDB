@@ -5,7 +5,7 @@
 					  "github.com/cyrus-and/gdb"
 					  "io"
 					  "os"
-					 // "path/filepath"
+					  "path/filepath"
 				)
 
 
@@ -14,7 +14,7 @@
 
 				func main() {
 						
-					//Gdbtest := new(Gdb)
+					Gdbtest := new(Gdb)
 
 					  // start a new instance and pipe the target output to stdout
 					 gdb, _ := gdb.New(nil)

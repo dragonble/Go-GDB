@@ -6,6 +6,7 @@
 					  "io"
 					  "os"
 					  //"path/filepath"
+					"strconv"
 				)
 					var debug *gdb.Gdb
 				func main() {
@@ -19,6 +20,8 @@
 
 					  // load and run a program
 					  debug.Send("file-exec-and-symbols", os.Args[1])
+					fmt.Println(debug.Send("gdb-version"))
+
 					 
 					  var input string
 					  
@@ -108,7 +111,7 @@
 						}
 					
 							notif := output["class"]
-							fmt.Println("Notification : ", notif) 
+							fmt.Println("Notificati on : ", notif) 
 		
 	}
 	func breaklist(){
@@ -208,9 +211,10 @@
 									frame:=stackSepareAssert["frame"]
 									frameAssert:=frame.(map[string]interface{})
 									
-									
+									index := strconv.Itoa(i)
+									fmt.Println(index)
 									//list variables by frame 
-									fmt.Println(debug.Send("stack-list-variables","--thread","1", "--frame",string(i), "--simple-values"))
+									fmt.Println(debug.Send("stack-list-variables","--thread","1", "--frame",index,"--simple-values"))
 
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
