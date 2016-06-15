@@ -40,18 +40,8 @@
 
 						
 						//Break delete						
-						case "delete" : 
-{
-							var numero_break string		
-							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
-							fmt.Scanln(&numero_break )
-							if numero_break != "" {
-							debug.Send("break-delete", numero_break )
-						} else {
-							debug.Send("break-delete")
-							}			
-						}
-		
+						case "delete" : delete_break()
+
 						//Run	
 						case "run" : start()
 					
@@ -111,7 +101,7 @@
 						}
 					
 							notif := output["class"]
-							fmt.Println("Notificati on : ", notif) 
+							fmt.Println("Notification : ", notif) 
 		
 	}
 	func breaklist(){
@@ -148,7 +138,7 @@
 
 
 		}
-	/*func delete_break(gdb *gdb.Gdb){
+	func delete_break(){
 				
 						var numero_break string		
 				
@@ -156,12 +146,12 @@
 						fmt.Scanln(&numero_break )
 						
 						if numero_break != "" {
-							gdb.Send("break-delete","numero_break" )
+							debug.Send("break-delete",numero_break )
 						} else {
-							gdb.Send("break-delete")
+							debug.Send("break-delete")
 							}	
 
-	}*/
+	}
 
 	func step_reverse(){
 		output,err := debug.Send("exec-step","--reverse")
@@ -212,10 +202,15 @@
 									frameAssert:=frame.(map[string]interface{})
 									
 									index := strconv.Itoa(i)
-									fmt.Println(index)
+									fmt.Println("Frame : ", index)
+									
 									//list variables by frame 
-									fmt.Println(debug.Send("stack-list-variables","--thread","1", "--frame",index,"--simple-values"))
-
+									output_variables,_  := debug.Send("stack-list-variables","--thread","1","--frame",index,"--simple-values")
+									map_variables := output_variables["payload"]
+									m_variables := map_variables.(map[string]interface{})
+									variables := m_variables["variables"]
+									fmt.Println("Variables : ", variables)
+									
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]

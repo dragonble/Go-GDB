@@ -19,14 +19,12 @@ package main
 
 					  // load and run a program
 					  debug.Send("file-exec-and-symbols", os.Args[1])
-					
-					//gdb version
 					fmt.Println(debug.Send("gdb-version"))
 
 					 
 					  var input string
 					  
-				 	for input != "quit"   {
+				 for input != "quit"   {
 					  fmt.Println("Que voulez-vous faire ?")
 					  fmt.Scanln(&input)
 					
@@ -91,7 +89,6 @@ package main
 									
 									index := strconv.Itoa(i)
 									fmt.Println(index)
-									
 									//list variables by frame 
 									fmt.Println(debug.Send("stack-list-variables","--thread","1", "--frame",index,"--simple-values"))
 

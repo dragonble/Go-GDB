@@ -41,21 +41,8 @@
 
 						
 						//Break delete						
-						case "delete" : 
-{
-							var numero_break string		
-							fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
-							fmt.Scanln(&numero_break )
-							if numero_break != "" {
+						case "delete" : delete_break()
 
-							fmt.Println(gdb.Send("break-delete",numero_break ))
-
-							debug.Send("break-delete", numero_break )
-
-						} else {
-							debug.Send("break-delete")
-							}			
-						}
 		
 						//Run	
 						case "run" : start()
@@ -153,7 +140,7 @@
 
 
 		}
-	/*func delete_break(gdb *gdb.Gdb){
+	func delete_break(){
 				
 						var numero_break string		
 				
@@ -161,12 +148,12 @@
 						fmt.Scanln(&numero_break )
 						
 						if numero_break != "" {
-							gdb.Send("break-delete","numero_break" )
+							debug.Send("break-delete",numero_break )
 						} else {
-							gdb.Send("break-delete")
+							debug.Send("break-delete")
 							}	
 
-	}*/
+	}
 
 	func step_reverse(){
 		output,err := debug.Send("exec-step","--reverse")
@@ -216,20 +203,25 @@
 									frame:=stackSepareAssert["frame"]
 									frameAssert:=frame.(map[string]interface{})
 									
+									index := strconv.Itoa(i)
+									fmt.Println("Frame : ", index)
 									
+									//list variables by frame 
+									output_variables,_  := debug.Send("stack-list-variables","--thread","1","--frame",index,"--simple-values")
+									map_variables := output_variables["payload"]
+									m_variables := map_variables.(map[string]interface{})
+									variables := m_variables["variables"]
+									fmt.Println("Variables : ", variables)
 									
-									//fmt.Println(debug.Send("stack-list-variables",frameselect, "--simple-values"))
-
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]
 									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
 									
-									/*frameselect,thread := debug.Send("stack-select-frame",)
-									fmt.Println(frameselect)
-									fmt.Println(thread)*/
+									
 								}
 		}
+
 
 	func watch(){
 
@@ -240,7 +232,7 @@
 				fmt.Println(debug.Send("break-watch", input_watch))
 		}
 
-	func where (){
+	func where(){
 
 			output,_ := debug.Send("stack-list-frames")
 							pay:=output["payload"]
