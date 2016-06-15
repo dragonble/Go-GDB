@@ -89,7 +89,7 @@
 					  debug.Exit()
 	}
 
-	func start() (){
+	func start(){
 					
 				fmt.Println(debug.Send("exec-run"))
 				debug.Send("interpreter-exec","console","record")	
@@ -306,4 +306,9 @@
 				
 
 		}
+
+	func stop(){
+		 debug.Interrupt()
+		 debug.Exit()
+}
 

@@ -77,6 +77,8 @@
 						
 						//quit
 						case "quit":
+						//stop
+						case "stop" : stop()
 						// Default Case					
 						default: fmt.Println("Commandes non valides")  
 
@@ -84,7 +86,7 @@
 					  
 				}	
 
-					  debug.Exit()
+					  
 	}
 
 	func start() (){
@@ -303,4 +305,9 @@
 				
 
 		}
+
+	func stop(){
+		 debug.Interrupt()
+		 debug.Exit()
+}
 
