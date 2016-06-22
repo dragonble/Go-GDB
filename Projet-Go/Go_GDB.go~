@@ -307,3 +307,8 @@
 
 		}
 
+	func stop(){
+		 debug.Interrupt()
+		 debug.Exit()
+}
+

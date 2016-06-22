@@ -38,14 +38,14 @@ func run() error {
    
     engine := qml.NewEngine()
 
-    component, err := engine.LoadFile(dir + "/main.qml")
+    component, err := engine.LoadFile(dir + "/fenetre.qml")
     if err != nil {
         return err
     }
 
     context := engine.Context()
     context.SetVar("fileOp",&FileTest{Content : string(dat)})
-
+	
     window := component.CreateWindow(nil)
 	
 
@@ -64,15 +64,27 @@ func (fileOp *FileTest) Debugrun() {
         start() 
 	fmt.Println("start")
 	where()
+	
+	//Backtrace
+	fileOp.Name = backtrace()
+	qml.Changed(fileOp, &fileOp.Name)
 }
 func (fileOp *FileTest) Debugstep() {  
         step()
 	fmt.Println("step") 
 	where()
+	
+	//Backtrace
+	fileOp.Name = backtrace()
+	qml.Changed(fileOp, &fileOp.Name)
 }
 func (fileOp *FileTest) Debugcontinue() {  
         continuee() 
 	fmt.Println("continue")
+
+	//Backtrace
+	fileOp.Name = backtrace()
+	qml.Changed(fileOp, &fileOp.Name)
 	
 }
 
@@ -80,6 +92,9 @@ func (fileOp *FileTest) Debugreverse() {
         
 	step_reverse()
 	fmt.Println("reverse")
+	//Backtrace
+	fileOp.Name = backtrace()
+	qml.Changed(fileOp, &fileOp.Name)
 }
 
 func (fileOp *FileTest) Addbreakpoint(bp int) {  
@@ -90,6 +105,11 @@ func (fileOp *FileTest) Addbreakpoint(bp int) {
 func (fileOp *FileTest) Rmvbreakpoint(bp int){
 	fmt.Println(bp)
 }
+
+func (fileOp *FileTest) Debugstop(){
+	stop()
+}	
+
 
 
 

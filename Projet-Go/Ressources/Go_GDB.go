@@ -28,10 +28,11 @@
 					 
 	}
 
-	func start() (){
+	func start(){
 					
 				fmt.Println(debug.Send("exec-run"))
 				debug.Send("interpreter-exec","console","record")	
+				
 
 			}
 	func step(){
@@ -80,7 +81,7 @@
 
 
 		}
-	/*func delete_break(gdb *gdb.Gdb){
+		func delete_break(){
 				
 						var numero_break string		
 				
@@ -88,12 +89,12 @@
 						fmt.Scanln(&numero_break )
 						
 						if numero_break != "" {
-							gdb.Send("break-delete","numero_break" )
+							debug.Send("break-delete",numero_break )
 						} else {
-							gdb.Send("break-delete")
+							debug.Send("break-delete")
 							}	
 
-	}*/
+	}
 
 	func step_reverse(){
 		output,err := debug.Send("exec-step","--reverse")
@@ -125,18 +126,22 @@
 								notif := output["class"]
 								fmt.Println("Notification : ",notif) 
 		}
-	func backtrace(){
+	func backtrace() string {
 			
 				
 								output,_:=debug.Send("stack-list-frames")
 								pay:=output["payload"]
-
+								
 								payAssert:=pay.(map[string]interface{})
 				
 								stack:=payAssert["stack"]
 							
 								stackAssert:=stack.([]interface{})
 								nbreFct:=len(stackAssert)
+			
+								str :=""
+								str_variables := ""
+
 								for i:=0; i<=nbreFct-1 ; i++{
 									stackSepare:=stackAssert[i]
 									stackSepareAssert:=stackSepare.(map[string]interface{})
@@ -144,20 +149,57 @@
 									frame:=stackSepareAssert["frame"]
 									frameAssert:=frame.(map[string]interface{})
 									
+									index := strconv.Itoa(i)
+									
+									//list variables by frame 
+									output_variables,_  := debug.Send("stack-list-variables","--thread","1","--frame",index,"--simple-values")
+									map_variables := output_variables["payload"]
+									m_variables := map_variables.(map[string]interface{})
+									
+									variables := m_variables["variables"]
 									
 									
-									//fmt.Println(debug.Send("stack-list-variables",frameselect, "--simple-values"))
-
+									variables_slice := variables.([]interface{})
+									str_variables = ""
+								
+								for j:=0; j<len(variables_slice); j++ {
+										Separe_variables := variables_slice[j]
+										Separe_variablesAssert :=Separe_variables.(map[string]interface{})
+										
+										name := Separe_variablesAssert["name"]
+										str_name := name.(string)
+										
+										typee := Separe_variablesAssert["type"]
+										str_type := typee.(string)
+						
+										value := Separe_variablesAssert["value"]
+										str_value := value.(string)
+										
+										if arg, ok := Separe_variablesAssert["arg"] ;ok{
+										str_arg := arg.(string)
+											str_variables +="variable name : " + str_name + " type :" + str_type + " value :" + str_value +
+																" arg : " + str_arg + "\n"
+										}	else {
+											str_variables +="variable name : " + str_name + " type :" + str_type +" value :" + str_value+ "\n"
+											}
+										
+									}
+								
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]
-									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
 									
-									/*frameselect,thread := debug.Send("stack-select-frame",)
-									fmt.Println(frameselect)
-									fmt.Println(thread)*/
+									function := fun.(string)
+									ligne := line.(string)
+									niveau := level.(string)
+								
+									str += "Frame " +index + "\n"+"level : " + niveau + " function : "+  function + "  line : " + ligne +"\n" + 														str_variables + "\n"
+									
+									
 								}
+			return str
 		}
+
 
 	func watch(){
 
@@ -240,4 +282,11 @@
 				
 
 		}
+
+	
+	func stop(){
+		 fmt.Println(debug.Interrupt())	
+		 debug.Exit()
+}
+
 

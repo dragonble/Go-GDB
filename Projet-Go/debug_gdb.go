@@ -67,7 +67,7 @@
 						
 						//Backtrace
 
-						case "backtrace" :backtrace()
+						case "backtrace" :fmt.Println(backtrace())
 
 						//Watchpoints
 						case "watch" : watch()
@@ -184,18 +184,22 @@
 								notif := output["class"]
 								fmt.Println("Notification : ",notif) 
 		}
-	func backtrace(){
+	func backtrace() string {
 			
 				
 								output,_:=debug.Send("stack-list-frames")
 								pay:=output["payload"]
-
+								
 								payAssert:=pay.(map[string]interface{})
 				
 								stack:=payAssert["stack"]
 							
 								stackAssert:=stack.([]interface{})
 								nbreFct:=len(stackAssert)
+			
+								str :=""
+								str_variables := ""
+
 								for i:=0; i<=nbreFct-1 ; i++{
 									stackSepare:=stackAssert[i]
 									stackSepareAssert:=stackSepare.(map[string]interface{})
@@ -204,22 +208,54 @@
 									frameAssert:=frame.(map[string]interface{})
 									
 									index := strconv.Itoa(i)
-									fmt.Println("Frame : ", index)
 									
 									//list variables by frame 
 									output_variables,_  := debug.Send("stack-list-variables","--thread","1","--frame",index,"--simple-values")
 									map_variables := output_variables["payload"]
 									m_variables := map_variables.(map[string]interface{})
-									variables := m_variables["variables"]
-									fmt.Println("Variables : ", variables)
 									
+									variables := m_variables["variables"]
+									
+									
+									variables_slice := variables.([]interface{})
+									str_variables = ""
+								
+								for j:=0; j<len(variables_slice); j++ {
+										Separe_variables := variables_slice[j]
+										Separe_variablesAssert :=Separe_variables.(map[string]interface{})
+										
+										name := Separe_variablesAssert["name"]
+										str_name := name.(string)
+										
+										typee := Separe_variablesAssert["type"]
+										str_type := typee.(string)
+						
+										value := Separe_variablesAssert["value"]
+										str_value := value.(string)
+										
+										if arg, ok := Separe_variablesAssert["arg"] ;ok{
+										str_arg := arg.(string)
+											str_variables +="variable name : " + str_name + " type :" + str_type + " value :" + str_value +
+																" arg : " + str_arg + "\n"
+										}	else {
+											str_variables +="variable name : " + str_name + " type :" + str_type +" value :" + str_value+ "\n"
+											}
+										
+									}
+								
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]
-									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
+									
+									function := fun.(string)
+									ligne := line.(string)
+									niveau := level.(string)
+								
+									str += "Frame " +index + "\n"+"level : " + niveau + " function : "+  function + "  line : " + ligne +"\n" + 														str_variables + "\n"
 									
 									
 								}
+			return str
 		}
 
 	func watch(){
