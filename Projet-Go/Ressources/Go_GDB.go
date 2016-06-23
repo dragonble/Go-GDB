@@ -29,11 +29,11 @@ import (
 
 					 
 	}
-<<<<<<< HEAD
-	//Lance l'execution du programme avec creation du record pour pouvoir revenir en arriere si necessaire
-=======
 
->>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+	//Lance l'execution du programme avec creation du record pour pouvoir revenir en arriere si necessaire
+
+
+
 	func start(){
 					
 				debug.Send("exec-run")
@@ -84,24 +84,23 @@ import (
 
 
 		}
-<<<<<<< HEAD
+
 	//Supprime un breakpoint
 	func delete_break(bpdel int){
-=======
-		func delete_break(){
+
 				
 						var numero_break string		
->>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+
 				
 						fmt.Println("ok")
 						
-<<<<<<< HEAD
+
 
 						output,err :=debug.Send("break-list")
 						if err !=nil {
 							fmt.Println(err)				
 							}
-=======
+
 						if numero_break != "" {
 							debug.Send("break-delete",numero_break )
 						} else {
@@ -109,7 +108,7 @@ import (
 							}	
 
 	}
->>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+
 
 						pay:=output["payload"]
 						payAssert := pay.(map[string]interface {})
@@ -169,12 +168,11 @@ import (
 								notif := output["class"]
 								fmt.Println("Notification : ",notif) 
 		}
-<<<<<<< HEAD
+
 	//Affiche la pile d'appels
-	func backtrace(){
-=======
+
 	func backtrace() string {
->>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+
 			
 				
 								output,_:=debug.Send("stack-list-frames")
@@ -198,20 +196,17 @@ import (
 									frameAssert:=frame.(map[string]interface{})
 									
 									index := strconv.Itoa(i)
-<<<<<<< HEAD
-									fmt.Println("Frame : ", index)
-=======
->>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+
 									
 									//list variables by frame 
 									output_variables,_  := debug.Send("stack-list-variables","--thread","1","--frame",index,"--simple-values")
 									map_variables := output_variables["payload"]
 									m_variables := map_variables.(map[string]interface{})
-<<<<<<< HEAD
+
 									variables := m_variables["variables"]
-									fmt.Println("Variables : ", variables)
+									//fmt.Println("Variables : ", variables)
 									
-=======
+
 									
 									variables := m_variables["variables"]
 									
@@ -242,30 +237,27 @@ import (
 										
 									}
 								
->>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]
 									
-<<<<<<< HEAD
-=======
+
 									function := fun.(string)
 									ligne := line.(string)
 									niveau := level.(string)
 								
 									str += "Frame " +index + "\n"+"level : " + niveau + " function : "+  function + "  line : " + ligne +"\n" + 														str_variables + "\n"
 									
->>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+
 									
 								}
 			return str
 		}
 
-<<<<<<< HEAD
-	//Creer un watchpoint
-=======
 
->>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+	//Creer un watchpoint
+
 	func watch(){
 
 				var input_watch string
@@ -355,9 +347,5 @@ import (
 }
 
 	
-	func stop(){
-		 fmt.Println(debug.Interrupt())	
-		 debug.Exit()
-}
 
 

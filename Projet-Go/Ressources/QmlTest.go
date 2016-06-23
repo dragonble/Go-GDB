@@ -146,6 +146,7 @@ func (fileOp *FileTest) Debugreverse() {
         debug.Exit()
 	//step_reverse()
 	fmt.Println("reverse")
+	
 	//Backtrace
 	fileOp.Name = backtrace()
 	qml.Changed(fileOp, &fileOp.Name)
@@ -175,8 +176,18 @@ func (fileOp *FileTest) Debugstop(){
 }	
 
 
+<<<<<<< HEAD
+func (fileOp *FileTest) Debugreversecontuinue(){
+	continue_reverse()
+	
+	//Backtrace
+	fileOp.Name = backtrace()
+	qml.Changed(fileOp, &fileOp.Name)
+}
+=======
 >>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
 
+>>>>>>> 17e46f2ad7e31fd4a9ca13e71ed2772c402360f9
 
   	w.Close()
   	out, _ := ioutil.ReadAll(r)
