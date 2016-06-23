@@ -192,11 +192,11 @@ ApplicationWindow {
 				onClicked : {fileOp.debugcontinue()}	
 			}
 
-		ToolButton {
+		/*ToolButton {
 			
 				iconSource: "Ressources2/stop.png"	
 				onClicked : { fileOp.debugstop() }		
-			}
+			}*/
 			Item { Layout.fillWidth: true}
 		
 					}

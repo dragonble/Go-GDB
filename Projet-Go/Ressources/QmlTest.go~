@@ -43,7 +43,7 @@ func run() error {
    
     engine := qml.NewEngine()
 
-    component, err := engine.LoadFile(dir + "/fenetre.qml")
+    component, err := engine.LoadFile(dir + "/main.qml")
     if err != nil {
         return err
     }
@@ -181,9 +181,9 @@ func (fileOp *FileTest) Debugreversecontuinue(){
 	qml.Changed(fileOp, &fileOp.Backtrace)
 }
 
-func (fileOp *FileTest) Debugstop(){
+/*func (fileOp *FileTest) Debugstop(){
 	stop()
-}
+}*/
 
 /*
 func (consoleOp *FileTest) Affichebuffer() {

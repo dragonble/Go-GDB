@@ -345,10 +345,6 @@ import (
 
 		}
 	//Arrete GDB
-	/*func stop(){
-		 fmt.Println(debug.Interrupt())
-		 debug.Exit()
-}*/
 
 	func stop(){
 		 debug.Interrupt()
