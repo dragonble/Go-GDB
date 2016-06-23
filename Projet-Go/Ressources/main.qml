@@ -118,7 +118,7 @@ ApplicationWindow {
 			
 			wrapMode: TextEdit.NoWrap
 			frameVisible: false
-			text: fileOp.content
+			text: fileOp.debugcode
 			font.pixelSize: 18
 			}
 		}
@@ -139,12 +139,12 @@ ApplicationWindow {
 
 				wrapMode: TextEdit.NoWrap
 				frameVisible: true
-				text : consoleOp.content 
+				text : fileOp.console
 				font.pixelSize: 18
 				width : parent.width
 				//Component.onCompleted: consoleOp.affichebuffer()
 				}
-		//Binding { target: consoleOp; property: "content"; value: textarea2.text  }
+		//Binding { target: fileOp; property: "console"; value: textarea2.text  }
             }
         }
 
@@ -158,24 +158,24 @@ ApplicationWindow {
 		ToolButton {
 
 				iconSource: "Ressources2/back.png"
-				onClicked : consoleOp.debugreverse()
+				onClicked : fileOp.debugreverse()
 						
 			}
 		ToolButton {
 
 				iconSource: "Ressources2/run.png"
-				onClicked : consoleOp.debugrun()	
+				onClicked : fileOp.debugrun()	
 			}
 			
 		ToolButton {
 
 				iconSource: "Ressources2/step.png"
-				onClicked : consoleOp.debugstep()
+				onClicked : fileOp.debugstep()
 			}
 		ToolButton {
 			
 				iconSource: "Ressources2/continue.png"	
-				onClicked : consoleOp.debugcontinue()	
+				onClicked : fileOp.debugcontinue()	
 			}
 			Item { Layout.fillWidth: true}
 		

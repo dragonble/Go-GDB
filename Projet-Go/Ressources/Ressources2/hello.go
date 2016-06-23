@@ -23,6 +23,10 @@ func main() {
 	debug.Send("file-exec-and-symbols",  os.Args[1])
 	debug.Send("exec-run")
 	io.Copy(out, debug)
-	debug.Exit()
+	fmt.Println("pas normal")
+	//debug.Exit()
+	fmt.Println("pas normal")
+	//os.Exit(0)
+	
 }
 

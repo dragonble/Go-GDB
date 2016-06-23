@@ -3,7 +3,7 @@ package main
 import (
 	  "fmt"
 	 "github.com/cyrus-and/gdb"
-	  "io"
+	 // "io"
 	  "os"
 	 "strconv"
 	  //"path/filepath"
@@ -18,7 +18,7 @@ import (
 				
 						
 					  debug, _ = gdb.New(nil) //Initialisation de l'instance de GDB
-					  go io.Copy(os.Stdout, debug) // on affiche la sortie de GDB dans la console
+					  //go io.Copy(os.Stdout, debug) // on affiche la sortie de GDB dans la console
 					  
 
 
