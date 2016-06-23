@@ -43,7 +43,7 @@ func run() error {
    
     engine := qml.NewEngine()
 
-    component, err := engine.LoadFile(dir + "/fenetre.qml")
+    component, err := engine.LoadFile(dir + "/main.qml")
     if err != nil {
         return err
     }
@@ -54,6 +54,9 @@ func run() error {
 	
     //context2 := engine.Context()
     context.SetVar("consoleOp",&FileTest{Content : ""})
+
+	//backtrace
+	context.SetVar("backtraceFile", &FileTest{Content : ""})
 	
     window := component.CreateWindow(nil)
 	
@@ -98,14 +101,14 @@ func (consoleOp *FileTest) Debugrun() {
 	//debug.Exit()
 /*	
 =======*/
-func (fileOp *FileTest) Debugrun() {  
+func (backtraceFile *FileTest) Debugrun() {  
         start() 
 	fmt.Println("start")
 	where()
 	
 	//Backtrace
-	fileOp.Name = backtrace()
-	qml.Changed(fileOp, &fileOp.Name)
+	backtraceFile.Content =backtraceFile.Content +	 backtrace()
+	qml.Changed(backtraceFile, &backtraceFile.Content)
 
 }
 func (fileOp *FileTest) Debugstep() {  

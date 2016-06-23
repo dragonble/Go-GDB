@@ -15,6 +15,8 @@ ApplicationWindow {
 		anchors.right : parent.right
 		anchors.left : parent.left
 		anchors.bottom : parent.bottom
+
+		//Backtrace
         Rectangle {
             id: column
             width: 200
@@ -24,24 +26,28 @@ ApplicationWindow {
 
 				
 				TextArea{
-				id: textarea1
-				anchors.left: parent.left
-				anchors.right: parent.right
-				anchors.top: parent.top 
-				anchors.bottom: parent.bottom
-				wrapMode: TextEdit.NoWrap
-				frameVisible: true
-				text :" backtrace"
-				font.pixelSize: 18
-				width : parent.width
+					id: textarea1
+					anchors.left: parent.left
+					anchors.right: parent.right
+					anchors.top: parent.top 
+					anchors.bottom: parent.bottom
+					wrapMode:TextEdit.WordWrap
+					frameVisible: true
+					text : backtraceFile.content	
+										
+					font.pixelSize: 18
+					width : parent.width
+					readOnly :true
 
 				}
+				
         }
 	
         SplitView {
             orientation: Qt.Vertical
             Layout.fillWidth: true
 			
+			//Source Code
             Rectangle {
                 id: row1
                 height: 400
@@ -155,6 +161,12 @@ ApplicationWindow {
 		RowLayout {
 			
             anchors.fill: parent
+	
+		
+		ToolButton {
+					iconSource: "Ressources2/reverse_continue.png"	
+					onClicked : { fileOp.debugreversecontuinue() }
+				}
 		ToolButton {
 
 				iconSource: "Ressources2/back.png"
@@ -164,7 +176,7 @@ ApplicationWindow {
 		ToolButton {
 
 				iconSource: "Ressources2/run.png"
-				onClicked : consoleOp.debugrun()	
+				onClicked : backtraceFile.debugrun()	
 			}
 			
 		ToolButton {
@@ -176,6 +188,12 @@ ApplicationWindow {
 			
 				iconSource: "Ressources2/continue.png"	
 				onClicked : consoleOp.debugcontinue()	
+			}
+
+		ToolButton {
+			
+				iconSource: "Ressources2/stop.png"	
+				onClicked : { fileOp.debugstop() }		
 			}
 			Item { Layout.fillWidth: true}
 		

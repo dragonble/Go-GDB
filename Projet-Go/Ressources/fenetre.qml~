@@ -33,7 +33,7 @@ ApplicationWindow {
 					anchors.bottom: parent.bottom
 					wrapMode:TextEdit.WordWrap
 					frameVisible: true
-					text : fileOp.name	
+					text : backtraceFile.Content	
 										
 					font.pixelSize: 18
 					width : parent.width
@@ -160,6 +160,12 @@ ApplicationWindow {
 		RowLayout {
 			
             anchors.fill: parent
+		
+		ToolButton {
+					iconSource: "Ressources2/reverse_continue.png"	
+					onClicked : { fileOp.debugreversecontuinue() }
+				}
+		
 		ToolButton {
 
 				iconSource: "Ressources2/back.png"
@@ -188,10 +194,6 @@ ApplicationWindow {
 				iconSource: "Ressources2/stop.png"	
 				onClicked : { fileOp.debugstop() }		
 			}
-		ToolButton {
-					iconSource: "Ressources2/reverse_continue.png"	
-					onClicked : { fileOp.debugreversecontuinue() }
-				}
 		
 			
 			Item { Layout.fillWidth: true}

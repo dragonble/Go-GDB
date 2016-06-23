@@ -161,7 +161,7 @@ ApplicationWindow {
 			
             anchors.fill: parent
 		
-		ToolButton {
+ToolButton {
 					iconSource: "Ressources2/reverse_continue.png"	
 					onClicked : { fileOp.debugreversecontuinue() }
 				}
