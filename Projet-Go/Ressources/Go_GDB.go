@@ -27,7 +27,6 @@ import (
 					 
 					  debug.Send("file-exec-and-symbols", os.Args[2]) // on donne le fichier compile a GDB
 
-					 
 	}
 
 	//Lance l'execution du programme avec creation du record pour pouvoir revenir en arriere si necessaire
@@ -89,7 +88,7 @@ import (
 	func delete_break(bpdel int){
 
 				
-						var numero_break string		
+						//var numero_break string		
 
 				
 						fmt.Println("ok")
@@ -100,14 +99,14 @@ import (
 						if err !=nil {
 							fmt.Println(err)				
 							}
-
+/*
 						if numero_break != "" {
 							debug.Send("break-delete",numero_break )
 						} else {
 							debug.Send("break-delete")
 							}	
 
-	}
+	}*/
 
 
 						pay:=output["payload"]
@@ -208,7 +207,7 @@ import (
 									
 
 									
-									variables := m_variables["variables"]
+									//variables := m_variables["variables"]
 									
 									
 									variables_slice := variables.([]interface{})
