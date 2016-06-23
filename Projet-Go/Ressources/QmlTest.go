@@ -7,6 +7,11 @@ import (
     "io/ioutil"    
     "path/filepath"
     "log"
+  //  "time"
+    "io"
+   // "bytes"
+	//"os/exec"
+	
 )
 
 func main() {
@@ -45,7 +50,17 @@ func run() error {
 
     context := engine.Context()
     context.SetVar("fileOp",&FileTest{Content : string(dat)})
+<<<<<<< HEAD
+
 	
+    //context2 := engine.Context()
+    context.SetVar("consoleOp",&FileTest{Content : ""})
+	
+
+
+=======
+	
+>>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
     window := component.CreateWindow(nil)
 	
 
@@ -60,6 +75,35 @@ type FileTest struct {
     Content string
 }
 
+<<<<<<< HEAD
+func (consoleOp *FileTest) Debugrun() {  
+	/*rescueStdout := os.Stdout
+ 	 r, w, _ := os.Pipe()
+ 	 os.Stdout = w*/
+
+ 
+	start()
+	io.Copy(os.Stdout, debug)
+	
+	fmt.Println("Hello, playground") 
+	debug.Exit()
+  	/*w.Close()
+	debug.Interrupt()
+  	out, _ := ioutil.ReadAll(r)
+  	os.Stdout = rescueStdout*/
+
+ 
+	
+
+
+
+	 //fmt.Printf("Captured: %s \n", out)
+	//debug.Interrupt()
+  	//consoleOp.Content = consoleOp.Content + "\n" + string(out)
+	//qml.Changed(consoleOp, &consoleOp.Content)
+	//debug.Exit()
+	
+=======
 func (fileOp *FileTest) Debugrun() {  
         start() 
 	fmt.Println("start")
@@ -68,29 +112,39 @@ func (fileOp *FileTest) Debugrun() {
 	//Backtrace
 	fileOp.Name = backtrace()
 	qml.Changed(fileOp, &fileOp.Name)
+>>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
 }
 func (fileOp *FileTest) Debugstep() {  
+	
         step()
 	fmt.Println("step") 
 	where()
 	
+<<<<<<< HEAD
+=======
 	//Backtrace
 	fileOp.Name = backtrace()
 	qml.Changed(fileOp, &fileOp.Name)
+>>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
 }
 func (fileOp *FileTest) Debugcontinue() {  
+	
         continuee() 
 	fmt.Println("continue")
+<<<<<<< HEAD
+	where()
+=======
 
 	//Backtrace
 	fileOp.Name = backtrace()
 	qml.Changed(fileOp, &fileOp.Name)
+>>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
 	
 }
 
 func (fileOp *FileTest) Debugreverse() {  
-        
-	step_reverse()
+        debug.Exit()
+	//step_reverse()
 	fmt.Println("reverse")
 	
 	//Backtrace
@@ -102,16 +156,27 @@ func (fileOp *FileTest) Addbreakpoint(bp int) {
         
 	
 	breake(bp)
-}
-func (fileOp *FileTest) Rmvbreakpoint(bp int){
 	fmt.Println(bp)
 }
+func (fileOp *FileTest) Rmvbreakpoint(bp int){
+	delete_break(bp)
+	fmt.Println(bp)
+}
+/*
+func (consoleOp *FileTest) Affichebuffer() {
 
+<<<<<<< HEAD
+	
+	 rescueStdout := os.Stdout
+ 	 r, w, _ := os.Pipe()
+  	os.Stdout = w
+=======
 func (fileOp *FileTest) Debugstop(){
 	stop()
 }	
 
 
+<<<<<<< HEAD
 func (fileOp *FileTest) Debugreversecontuinue(){
 	continue_reverse()
 	
@@ -119,9 +184,21 @@ func (fileOp *FileTest) Debugreversecontuinue(){
 	fileOp.Name = backtrace()
 	qml.Changed(fileOp, &fileOp.Name)
 }
+=======
+>>>>>>> e71d172bf9a7910559129adadfa51b122c4af6c9
+
+>>>>>>> 17e46f2ad7e31fd4a9ca13e71ed2772c402360f9
+
+  	w.Close()
+  	out, _ := ioutil.ReadAll(r)
+  	os.Stdout = rescueStdout
+	
+  	consoleOp.Content = consoleOp.Content + "\n" + string(out)
+	qml.Changed(consoleOp, &consoleOp.Content)
+}
 
 
-
+*/
 
 
 

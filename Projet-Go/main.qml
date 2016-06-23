@@ -134,7 +134,7 @@ ApplicationWindow {
 			
 				wrapMode: TextEdit.NoWrap
 				frameVisible: true
-				text :"Console"
+				text : console.content ? text : ""
 				font.pixelSize: 18
 				width : parent.width
 
@@ -152,24 +152,24 @@ ApplicationWindow {
 		ToolButton {
 
 				iconSource: "Ressources/back.png"
-				//onClicked : debug.step-reverse
+				onClicked : fileOP.debugreverse()
 						
 			}
 		ToolButton {
 
 				iconSource: "Ressources/run.png"
-				//onClicked : fileOp.DebugRun()	
+				onClicked : fileOp.debugrun()	
 			}
 			
 		ToolButton {
 
 				iconSource: "Ressources/step.png"
-				//onClicked : debug.step()
+				onClicked : fileOp.debugstep()
 			}
 		ToolButton {
 			
 				iconSource: "Ressources/continue.png"	
-				//onClicked : fileOp.DebugContinue()	
+				onClicked : fileOp.debugcontinue()	
 			}
 			Item { Layout.fillWidth: true}
 		

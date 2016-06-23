@@ -4,9 +4,12 @@ import (
     "fmt"
     "gopkg.in/qml.v1"
     "os"
+    "io"
     "io/ioutil"    
     "path/filepath"
     "log"
+    
+    "bytes"
 )
 
 func main() {
@@ -46,6 +49,16 @@ func run() error {
     context := engine.Context()
     context.SetVar("fileOp",&File{Content : string(dat)})
 
+	
+	
+	buf := new(bytes.Buffer)
+
+	
+	
+	go io.Copy(buf,os.Stdout)
+	go qml.Changed(console, &console.Content)
+    context2 := engine.Context()
+    context2.SetVar("console",&File{Content : buf.String()})
     window := component.CreateWindow(nil)
 	
 
