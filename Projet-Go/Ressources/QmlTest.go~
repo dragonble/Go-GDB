@@ -92,6 +92,7 @@ func (fileOp *FileTest) Debugreverse() {
         
 	step_reverse()
 	fmt.Println("reverse")
+	
 	//Backtrace
 	fileOp.Name = backtrace()
 	qml.Changed(fileOp, &fileOp.Name)
@@ -111,7 +112,13 @@ func (fileOp *FileTest) Debugstop(){
 }	
 
 
-
+func (fileOp *FileTest) Debugreversecontuinue(){
+	continue_reverse()
+	
+	//Backtrace
+	fileOp.Name = backtrace()
+	qml.Changed(fileOp, &fileOp.Name)
+}
 
 
 

@@ -15,25 +15,29 @@ ApplicationWindow {
 		anchors.right : parent.right
 		anchors.left : parent.left
 		anchors.bottom : parent.bottom
-        Rectangle {
+       
+		//Backtrace
+		 Rectangle {
             id: column
             width: 200
             Layout.minimumWidth: 100
             Layout.maximumWidth: 300
             color: "lightsteelblue"
-
+			
+			
 				TextArea{
 					id: textarea1
 					anchors.left: parent.left
 					anchors.right: parent.right
 					anchors.top: parent.top 
 					anchors.bottom: parent.bottom
-					wrapMode: TextEdit.NoWrap
+					wrapMode:TextEdit.WordWrap
 					frameVisible: true
 					text : fileOp.name	
 										
 					font.pixelSize: 18
 					width : parent.width
+					readOnly :true
 
 				}
 				
@@ -43,6 +47,7 @@ ApplicationWindow {
             orientation: Qt.Vertical
             Layout.fillWidth: true
 			
+			//Source Code
             Rectangle {
                 id: row1
                 height: 400
@@ -155,6 +160,12 @@ ApplicationWindow {
 		RowLayout {
 			
             anchors.fill: parent
+		
+		ToolButton {
+					iconSource: "Ressources2/reverse_continue.png"	
+					onClicked : { fileOp.debugreversecontuinue() }
+				}
+		
 		ToolButton {
 
 				iconSource: "Ressources2/back.png"
