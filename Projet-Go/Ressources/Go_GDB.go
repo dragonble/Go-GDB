@@ -3,7 +3,7 @@ package main
 import (
 	  "fmt"
 	 "github.com/cyrus-and/gdb"
-	  "io"
+	 // "io"
 	  "os"
 	 "strconv"
 	  //"path/filepath"
@@ -18,7 +18,7 @@ import (
 				
 						
 					  debug, _ = gdb.New(nil) //Initialisation de l'instance de GDB
-					  go io.Copy(os.Stdout, debug) // on affiche la sortie de GDB dans la console
+					  //go io.Copy(os.Stdout, debug) // on affiche la sortie de GDB dans la console
 					  
 
 
@@ -217,15 +217,20 @@ import (
 										Separe_variables := variables_slice[j]
 										Separe_variablesAssert :=Separe_variables.(map[string]interface{})
 										
+										//Variable name
 										name := Separe_variablesAssert["name"]
 										str_name := name.(string)
 										
+										//Variables types
 										typee := Separe_variablesAssert["type"]
 										str_type := typee.(string)
-						
+										
+										//Variables Values
 										value := Separe_variablesAssert["value"]
 										str_value := value.(string)
 										
+
+										// Check if this variable is a argument
 										if arg, ok := Separe_variablesAssert["arg"] ;ok{
 										str_arg := arg.(string)
 											str_variables +="variable name : " + str_name + " type :" + str_type + " value :" + str_value +
@@ -340,11 +345,15 @@ import (
 
 		}
 	//Arrete GDB
+	/*func stop(){
+		 fmt.Println(debug.Interrupt())
+		 debug.Exit()
+}*/
+
 	func stop(){
 		 debug.Interrupt()
 		 debug.Exit()
 }
-
 	
 
 

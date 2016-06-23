@@ -33,7 +33,7 @@ ApplicationWindow {
 					anchors.bottom: parent.bottom
 					wrapMode:TextEdit.WordWrap
 					frameVisible: true
-					text : backtraceFile.content	
+					text :fileOp.backtrace	
 										
 					font.pixelSize: 18
 					width : parent.width
@@ -91,11 +91,11 @@ ApplicationWindow {
 						   		      onClicked: {
 								if (text.state == 'normal'){
 								text.state = 'modif'
-								consoleOp.addbreakpoint(index + 1)
+								fileOp.addbreakpoint(index + 1)
 								}
 								else {
 								text.state = 'normal'
-								consoleOp.rmvbreakpoint(index + 1)
+								fileOp.rmvbreakpoint(index + 1)
 								}
 								}
 							 }
@@ -124,7 +124,7 @@ ApplicationWindow {
 			
 			wrapMode: TextEdit.NoWrap
 			frameVisible: false
-			text: fileOp.content
+			text: fileOp.debugcode
 			font.pixelSize: 18
 			}
 		}
@@ -145,12 +145,12 @@ ApplicationWindow {
 
 				wrapMode: TextEdit.NoWrap
 				frameVisible: true
-				text : consoleOp.content 
+				text : fileOp.console
 				font.pixelSize: 18
 				width : parent.width
 				//Component.onCompleted: consoleOp.affichebuffer()
 				}
-		//Binding { target: consoleOp; property: "content"; value: textarea2.text  }
+		//Binding { target: fileOp; property: "console"; value: textarea2.text  }
             }
         }
 
@@ -170,24 +170,26 @@ ApplicationWindow {
 		ToolButton {
 
 				iconSource: "Ressources2/back.png"
-				onClicked : consoleOp.debugreverse()
+				onClicked : {fileOp.debugreverse()}
 						
 			}
 		ToolButton {
 
 				iconSource: "Ressources2/run.png"
-				onClicked : backtraceFile.debugrun()	
+
+				onClicked : {fileOp.debugrun()	}
+
 			}
 			
 		ToolButton {
 
 				iconSource: "Ressources2/step.png"
-				onClicked : consoleOp.debugstep()
+				onClicked : {fileOp.debugstep()}
 			}
 		ToolButton {
 			
 				iconSource: "Ressources2/continue.png"	
-				onClicked : consoleOp.debugcontinue()	
+				onClicked : {fileOp.debugcontinue()}	
 			}
 
 		ToolButton {

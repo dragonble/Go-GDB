@@ -189,8 +189,7 @@
 				
 								output,_:=debug.Send("stack-list-frames")
 								pay:=output["payload"]
-								/*fmt.Println(output)
-								fmt.Println(pay)*/
+								
 								payAssert:=pay.(map[string]interface{})
 				
 								stack:=payAssert["stack"]

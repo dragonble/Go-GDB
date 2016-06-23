@@ -33,7 +33,7 @@ ApplicationWindow {
 					anchors.bottom: parent.bottom
 					wrapMode:TextEdit.WordWrap
 					frameVisible: true
-					text : backtraceFile.Content	
+					text : fileOp.backtrace
 										
 					font.pixelSize: 18
 					width : parent.width
@@ -124,7 +124,7 @@ ApplicationWindow {
 			
 				wrapMode: TextEdit.NoWrap
 				frameVisible: false
-				text: fileOp.content
+				text: fileOp.debugcode
 				font.pixelSize: 18
 				readOnly :true
 			}
@@ -161,7 +161,7 @@ ApplicationWindow {
 			
             anchors.fill: parent
 		
-		ToolButton {
+ToolButton {
 					iconSource: "Ressources2/reverse_continue.png"	
 					onClicked : { fileOp.debugreversecontuinue() }
 				}

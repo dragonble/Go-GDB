@@ -7,22 +7,26 @@ import (
 	"os"
 )
 
-type bidon struct {
+type outputGDB struct {
 	pos int32
 }
 
-func (bid *bidon) Write(p []byte) (n int, err error) {
-	bid.pos++
-	fmt.Println(bid.pos,p,string(p))
+func (out *outputGDB) Write(p []byte) (n int, err error) {
+	out.pos++
+	fmt.Println(string(p))
 	return len(p),nil
 }
 
 func main() {
-	bid := &bidon{}
+	out := &outputGDB{}
 	debug, _ := gdb.New(nil)
 	debug.Send("file-exec-and-symbols",  os.Args[1])
 	debug.Send("exec-run")
-	io.Copy(bid, debug)
-	debug.Exit()
+	io.Copy(out, debug)
+	fmt.Println("pas normal")
+	//debug.Exit()
+	fmt.Println("pas normal")
+	//os.Exit(0)
+	
 }
 
