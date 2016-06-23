@@ -123,16 +123,15 @@ ApplicationWindow {
          Rectangle {
                 id: row2
                 color: "lightgray"
-
+				anchors.left: parent.left
+				anchors.right: parent.right
+				anchors.top: row1.bottom 
+				anchors.bottom: parent.bottom
 		
 				TextArea{
 				id: textarea2
-				
-				anchors.left: row1.right
-				anchors.right: parent.right
-				anchors.top: parent.top 
-				anchors.bottom: parent.bottom
-
+				anchors.fill: parent
+			
 				wrapMode: TextEdit.NoWrap
 				frameVisible: true
 				text : console.content ? text : ""

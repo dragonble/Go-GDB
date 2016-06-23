@@ -22,20 +22,24 @@ ApplicationWindow {
             Layout.maximumWidth: 300
             color: "lightsteelblue"
 
-				
 				TextArea{
-				id: textarea1
-				anchors.left: parent.left
-				anchors.right: parent.right
-				anchors.top: parent.top 
-				anchors.bottom: parent.bottom
-				wrapMode: TextEdit.NoWrap
-				frameVisible: true
-				text :" backtrace"
-				font.pixelSize: 18
-				width : parent.width
+					id: textarea1
+					anchors.left: parent.left
+					anchors.right: parent.right
+					anchors.top: parent.top 
+					anchors.bottom: parent.bottom
+					wrapMode: TextEdit.NoWrap
+					frameVisible: true
+					text : fileOp.name	
+										
+					font.pixelSize: 18
+					width : parent.width
 
 				}
+				
+
+
+
         }
 	
         SplitView {
@@ -81,12 +85,16 @@ ApplicationWindow {
 						text: index + 1	 
 		
 						MouseArea {
-				   		      anchors.fill: parent
-						   		      onClicked: {
-								if (text.state == 'normal')
-								text.state = 'modif'
-								else 
-								text.state = 'normal'
+				   		          anchors.fill: parent
+   		      				onClicked: {
+								if (text.state == 'normal'){
+									text.state = 'modif'
+									fileOp.addbreakpoint(index+1)
+									}
+								else {
+									text.state = 'normal'
+									fileOp.rmvbreakpoint(index+1)
+									}
 								}
 							 }
 				 
@@ -105,17 +113,18 @@ ApplicationWindow {
 				}
 			}
 			TextArea {
-			id: textarea
+				id: textarea
 			
-			anchors.left: lineColumn.right
-			anchors.right: parent.right
-			anchors.top: parent.top 
-			anchors.bottom: parent.bottom
+				anchors.left: lineColumn.right
+				anchors.right: parent.right
+				anchors.top: parent.top 
+				anchors.bottom: parent.bottom
 			
-			wrapMode: TextEdit.NoWrap
-			frameVisible: false
-			text: fileOp.content
-			font.pixelSize: 18
+				wrapMode: TextEdit.NoWrap
+				frameVisible: false
+				text: fileOp.content
+				font.pixelSize: 18
+				readOnly :true
 			}
 		}
 	
@@ -123,7 +132,7 @@ ApplicationWindow {
          Rectangle {
                 id: row2
                 color: "lightgray"
-			anchors.left: parent.left
+				anchors.left: parent.left
 				anchors.right: parent.right
 				anchors.top: row1.bottom 
 				anchors.bottom: parent.bottom
@@ -151,26 +160,34 @@ ApplicationWindow {
             anchors.fill: parent
 		ToolButton {
 
-				iconSource: "Ressources/back.png"
-				//onClicked : debug.step-reverse
+				iconSource: "Ressources2/back.png"
+				onClicked : { fileOp.debugreverse() }
 						
 			}
 		ToolButton {
 
-				iconSource: "Ressources/run.png"
-				//onClicked : fileOp.DebugRun()	
+				iconSource: "Ressources2/run.png"
+				onClicked : { fileOp.debugrun()	}
 			}
 			
 		ToolButton {
 
-				iconSource: "Ressources/step.png"
-				//onClicked : debug.step()
+				iconSource: "Ressources2/step.png"
+				onClicked : { fileOp.debugstep() }
 			}
 		ToolButton {
 			
-				iconSource: "Ressources/continue.png"	
-				//onClicked : fileOp.DebugContinue()	
+				iconSource: "Ressources2/continue.png"	
+				onClicked : { fileOp.debugcontinue() }		
 			}
+
+		ToolButton {
+			
+				iconSource: "Ressources2/stop.png"	
+				onClicked : { fileOp.debugstop() }		
+			}
+		
+			
 			Item { Layout.fillWidth: true}
 		
 					}
