@@ -7,6 +7,11 @@ import (
     "io/ioutil"    
     "path/filepath"
     "log"
+  //  "time"
+    "io"
+   // "bytes"
+	//"os/exec"
+	
 )
 
 func main() {
@@ -46,6 +51,12 @@ func run() error {
     context := engine.Context()
     context.SetVar("fileOp",&FileTest{Content : string(dat)})
 
+	
+    //context2 := engine.Context()
+    context.SetVar("consoleOp",&FileTest{Content : ""})
+	
+
+
     window := component.CreateWindow(nil)
 	
 
@@ -60,25 +71,52 @@ type FileTest struct {
     Content string
 }
 
-func (fileOp *FileTest) Debugrun() {  
-        start() 
-	fmt.Println("start")
-	where()
+func (consoleOp *FileTest) Debugrun() {  
+	/*rescueStdout := os.Stdout
+ 	 r, w, _ := os.Pipe()
+ 	 os.Stdout = w*/
+
+ 
+	start()
+	io.Copy(os.Stdout, debug)
+	
+	fmt.Println("Hello, playground") 
+	debug.Exit()
+  	/*w.Close()
+	debug.Interrupt()
+  	out, _ := ioutil.ReadAll(r)
+  	os.Stdout = rescueStdout*/
+
+ 
+	
+
+
+
+	 //fmt.Printf("Captured: %s \n", out)
+	//debug.Interrupt()
+  	//consoleOp.Content = consoleOp.Content + "\n" + string(out)
+	//qml.Changed(consoleOp, &consoleOp.Content)
+	//debug.Exit()
+	
 }
 func (fileOp *FileTest) Debugstep() {  
+	
         step()
 	fmt.Println("step") 
 	where()
+	
 }
 func (fileOp *FileTest) Debugcontinue() {  
+	
         continuee() 
 	fmt.Println("continue")
+	where()
 	
 }
 
 func (fileOp *FileTest) Debugreverse() {  
-        
-	step_reverse()
+        debug.Exit()
+	//step_reverse()
 	fmt.Println("reverse")
 }
 
@@ -86,15 +124,31 @@ func (fileOp *FileTest) Addbreakpoint(bp int) {
         
 	
 	breake(bp)
-}
-func (fileOp *FileTest) Rmvbreakpoint(bp int){
 	fmt.Println(bp)
 }
+func (fileOp *FileTest) Rmvbreakpoint(bp int){
+	delete_break(bp)
+	fmt.Println(bp)
+}
+/*
+func (consoleOp *FileTest) Affichebuffer() {
+
+	
+	 rescueStdout := os.Stdout
+ 	 r, w, _ := os.Pipe()
+  	os.Stdout = w
 
 
+  	w.Close()
+  	out, _ := ioutil.ReadAll(r)
+  	os.Stdout = rescueStdout
+	
+  	consoleOp.Content = consoleOp.Content + "\n" + string(out)
+	qml.Changed(consoleOp, &consoleOp.Content)
+}
 
 
-
+*/
 
 
 

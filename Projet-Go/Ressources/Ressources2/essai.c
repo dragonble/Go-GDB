@@ -10,6 +10,7 @@ return c;
 
 int f(int x)
 {
+printf("blop!\n");
 return 2*x+max(x+4,2*x);
 }
 
