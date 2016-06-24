@@ -1,6 +1,6 @@
 # Description :
 
-Interface GDB écrit en Go 
+Interface GDB écrit en langage Go utilisant l'interface GDB/MI à travers l'interface https://github.com/cyrus-and/gdb et la partie graphique  écrite en QML en utilisant le package https://github.com/go-qml/qml
 				
 ## Pré-requis : 
 	Installer Go
