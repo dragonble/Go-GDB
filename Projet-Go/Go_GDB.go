@@ -1,119 +1,70 @@
-				package main
+package main
 
-				import (
-					  "fmt"
-					  "github.com/cyrus-and/gdb"
-					  "io"
-					  "os"
-					  "strconv"
-					  //"path/filepath"
-				)
-					var debug *gdb.Gdb
+import (
+	  "fmt"
+	 "github.com/cyrus-and/gdb"
+	  "io"
+	  "os"
+	 "strconv"
+	  "path/filepath"
+	"log"
+)
+	var debug *gdb.Gdb //Creation de la variable qui contiendra l'instance de GDB
+	
 
-				func execGdb() {
-
+	//Fonction qui demarre l'instance de GDB avec le fichier donne en arguments		
+	func execGdb() {
+		
 
 				
-				
-					  debug, _ = gdb.New(nil)
-					  go io.Copy(os.Stdout, debug)
+						
+					  debug, _ = gdb.New(nil) //Initialisation de l'instance de GDB
+					 
+					go io.Copy(os.Stdout, debug) // on affiche la sortie de GDB dans la console
+						
+					
+					dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
+   					 if err != nil {
+            					log.Fatal(err)
+    					}
 
+					dirTravail := dir + "/Ressources"
 
 			
 
-					  // load and run a program
-					  debug.Send("file-exec-and-symbols", os.Args[1])
-/*					 
-					  var input string
-					  
-				 for input != "quit"   {
-					  fmt.Println("Que voulez-vous faire ?")
-					  fmt.Scanln(&input)
-					
-						switch input {
+					 
+					  debug.Send("file-exec-and-symbols", dirTravail + "/" + os.Args[2]) // on donne le fichier compile a GDB
 						
-						//Break
-						case "break": breake()
-						
-
-						//Break List						
-						case "break-list" : breaklist()
-
-						
-						//Break delete						
-						case "delete" : delete_break()
-
-		
-						//Run	
-						case "run" : start()
-					
-						//Step 
-						case "step" : step()
-
-						//Reverse Stepping
-						case "step-reverse" :step_reverse()
-						
-						// Continue
-						case "continue" :  continuee()
-
-						//Reverse continue 
-						case "continue-reverse" : continue_reverse()
-
-
-						//Print
-						case "print" : print()
-
-						//List variables locals
-						case "list-variables" : list_variables ()
-
-						
-						//Backtrace
-
-						case "backtrace" :backtrace()
-
-						//Watchpoints
-						case "watch" : watch()
-
-						//Where
-						case "where" : where ()
-						
-						//quit
-						case "quit":
-						// Default Case					
-						default: fmt.Println("Commandes non valides")  
-
-					}
-					  
-				}	*/
-
-					  debug.Exit()
 	}
+
+	//Lance l'execution du programme avec creation du record pour pouvoir revenir en arriere si necessaire
+
+
 
 	func start(){
-					
-				fmt.Println(debug.Send("exec-run"))
-				debug.Send("interpreter-exec","console","record")	
+				
+				debug.Send("exec-run")				
+				debug.Send("interpreter-exec","console","record")
+				
+				
 
-			}
+	}
+	//Avance d'une ligne
 	func step(){
 		
-		 output, err := debug.Send("exec-step")
-			if err != nil {
-						fmt.Println(err)		
-						}
-					
-							notif := output["class"]
-							fmt.Println("Notification : ", notif) 
+		 debug.Send("exec-step")
+			
 		
 	}
+	//Affiche la liste des breakpoints
 	func breaklist(){
 
-			output,err :=debug.Send("break-list")
+			output,err :=debug.Send("break-list") // On prends la reponse complexe de GDB
 						if err !=nil {
 							fmt.Println(err)				
 							}
 
-						pay:=output["payload"]
+						pay:=output["payload"] //On va chercher etape par etape l'information voulue
 						payAssert := pay.(map[string]interface {})
 					
 						breakpointTable := payAssert["BreakpointTable"]
@@ -135,67 +86,97 @@
 							disp :=bkptAssert["disp"]
 							fun :=bkptAssert["func"]
 							line :=bkptAssert["line"]
-							fmt.Println("number:",number,"type:",typeB,"enabled:",enabled,"times:",times,"disp:",disp,"function:",fun,"line:",line)
+							fmt.Println("number:",number,"type:",typeB,"enabled:",enabled,
+							"times:",times,"disp:",disp,"function:",fun,"line:",line)
 						}
 
 
 		}
-	func delete_break(){
+
+	//Supprime un breakpoint
+	func delete_break(bpdel int){
+
 				
-						var numero_break string		
-				
-						fmt.Println("Supprimer un breakpoint(n°) ou tous les breakpoints")
-						fmt.Scanln(&numero_break )
+						output,err :=debug.Send("break-list")
+						if err !=nil {
+							fmt.Println(err)				
+							}
+
+
+
+						pay:=output["payload"]
+						payAssert := pay.(map[string]interface {})
+					
+						breakpointTable := payAssert["BreakpointTable"]
+						breakpointTableAssert := breakpointTable.(map[string]interface {})
+					
+						Array := breakpointTableAssert["body"]
+						ArrayAssert := Array.([]interface{})
+						nbreVar:=len(ArrayAssert)
+					
+						for i:=0; i<=nbreVar-1 ; i++{
+							mapSepare := ArrayAssert[i]
+							mapSepareAssert := mapSepare.(map[string]interface {})
+							bkpt := mapSepareAssert["bkpt"]
+							bkptAssert := bkpt.(map[string]interface {})
+							number:=bkptAssert["number"]
+							line :=bkptAssert["line"]
+							ligneAssert:= line.(string)
+							numLigne,_ := strconv.Atoi(ligneAssert)						
+							if bpdel == numLigne{
+								
+								
+								numero_break := number.(string)
+								
+								debug.Send("break-delete",numero_break )
+								
+								
+							}
+							
+						}
+
 						
-						if numero_break != "" {
-							debug.Send("break-delete",numero_break )
-						} else {
-							debug.Send("break-delete")
-							}	
+																					  
+							
 
 	}
-
+	
+	//Recule d'une ligne
 	func step_reverse(){
-		output,err := debug.Send("exec-step","--reverse")
-								if err != nil {
-									fmt.Println(err)		
-									}
-					
-							notif := output["class"]
-							fmt.Println("Notification : ",notif) 
-		}
+		debug.Send("exec-step","--reverse")
 
+		}
+	//Reprend l'execution 
 	func continuee(){
-			output,err := debug.Send("exec-continue")
-			if err != nil {
-					fmt.Println(err)		
-						}
-					
-				notif := output["class"]
-				fmt.Println("Notification : ",notif) 
+			debug.Send("exec-continue")
+		
 		}
+	//Revient au dernier breakpoint 
 	func continue_reverse(){
-			output,err := debug.Send("exec-continue","--reverse")
+			debug.Send("exec-continue","--reverse")
 
-								if err != nil {
-								fmt.Println(err)		
-									}
-					
-								notif := output["class"]
-								fmt.Println("Notification : ",notif) 
+								
 		}
-	func backtrace(){
+
+	//Affiche la pile d'appels
+
+	func backtrace() string {
+
 			
 				
 								output,_:=debug.Send("stack-list-frames")
 								pay:=output["payload"]
-
+								
 								payAssert:=pay.(map[string]interface{})
 				
 								stack:=payAssert["stack"]
 							
 								stackAssert:=stack.([]interface{})
 								nbreFct:=len(stackAssert)
+			
+								str :=""
+								str_variables := ""
+
 								for i:=0; i<=nbreFct-1 ; i++{
 									stackSepare:=stackAssert[i]
 									stackSepareAssert:=stackSepare.(map[string]interface{})
@@ -204,24 +185,72 @@
 									frameAssert:=frame.(map[string]interface{})
 									
 									index := strconv.Itoa(i)
-									fmt.Println("Frame : ", index)
+
 									
 									//list variables by frame 
 									output_variables,_  := debug.Send("stack-list-variables","--thread","1","--frame",index,"--simple-values")
 									map_variables := output_variables["payload"]
 									m_variables := map_variables.(map[string]interface{})
+
 									variables := m_variables["variables"]
-									fmt.Println("Variables : ", variables)
+									//fmt.Println("Variables : ", variables)
 									
+
+									
+									//variables := m_variables["variables"]
+									
+									
+									variables_slice := variables.([]interface{})
+									str_variables = ""
+								
+								for j:=0; j<len(variables_slice); j++ {
+										Separe_variables := variables_slice[j]
+										Separe_variablesAssert :=Separe_variables.(map[string]interface{})
+										
+										//Variable name
+										name := Separe_variablesAssert["name"]
+										str_name := name.(string)
+										
+										//Variables types
+										typee := Separe_variablesAssert["type"]
+										str_type := typee.(string)
+										
+										//Variables Values
+										value := Separe_variablesAssert["value"]
+										str_value := value.(string)
+										
+
+										// Check if this variable is a argument
+										if arg, ok := Separe_variablesAssert["arg"] ;ok{
+										str_arg := arg.(string)
+											str_variables +="variable name : " + str_name + " type :" + str_type + " value :" + str_value +
+																" arg : " + str_arg + "\n"
+										}	else {
+											str_variables +="variable name : " + str_name + " type :" + str_type +" value :" + str_value+ "\n"
+											}
+										
+									}
+								
+
 									fun:=frameAssert["func"]
 									line:=frameAssert["line"]
 									level:=frameAssert["level"]
-									fmt.Println("level : ",level,"function : ",fun ,"  line : ",line)
 									
+
+									function := fun.(string)
+									ligne := line.(string)
+									niveau := level.(string)
+								
+									str += "Frame " +index + "\n"+"level : " + niveau + " function : "+  function + "  line : " + ligne +"\n" + 														str_variables + "\n"
+									
+
 									
 								}
+			return str
 		}
 
+
+	//Creer un watchpoint
 
 	func watch(){
 
@@ -231,7 +260,7 @@
 				fmt.Scanln(&input_watch)
 				fmt.Println(debug.Send("break-watch", input_watch))
 		}
-
+	//Affiche ou en est l'execution du programme
 	func where(){
 
 			output,_ := debug.Send("stack-list-frames")
@@ -251,16 +280,20 @@
 							fun:=frameAssert["func"]
 							line:=frameAssert["line"]
 							fmt.Println("function : ",fun ,"  line : ",line)
+				if fun == "_exit" {
+				fmt.Println("exit")
+				debug.Exit()
+				
+				}
 		}
-
-	func breake(){
-
-			var input_break string
-			fmt.Println("rentrez votre breakpoint")
-			fmt.Scanln(&input_break)
+	//Ajoute un breakpoint
+	func breake(bp int){
+			
+						
+			input_break := strconv.Itoa(bp)
 			debug.Send("break-insert", input_break)
 		}
-
+	//Demande un nom de variable pour copier la valeur de la variable cible puis l'affiche
 	func print(){
 
 			var var_gdb string
@@ -279,6 +312,7 @@
 						}
 
 			fmt.Println(output["payload"])
+	//Affiche la liste des variables	
 		}
 	func list_variables (){
 			
@@ -306,9 +340,12 @@
 				
 
 		}
+	//Arrete GDB
 
 	func stop(){
 		 debug.Interrupt()
 		 debug.Exit()
-}
+	}
+	
+
 
