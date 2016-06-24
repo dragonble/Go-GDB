@@ -118,7 +118,7 @@ func (fileOp *FileTest) Debugrun() {
 	fmt.Println("start")
 	where()
 	
-	//Backtrace
+	//Charge la bactrace à chaque fois qu'on fait un run
 	fileOp.Backtrace = backtrace()
 	qml.Changed(fileOp, &fileOp.Backtrace)
 
@@ -131,7 +131,7 @@ func (fileOp *FileTest) Debugstep() {
 	where()
 	
 
-	//Backtrace
+	////Charge la bactrace à chaque fois qu'on fait un step
 	fileOp.Backtrace = backtrace()
 	qml.Changed(fileOp, &fileOp.Backtrace)
 
@@ -144,7 +144,7 @@ func (fileOp *FileTest) Debugcontinue() {
 	where()
 
 
-	//Backtrace
+	////Charge la bactrace à chaque fois qu'on fait un continue
 	fileOp.Backtrace = backtrace()
 	qml.Changed(fileOp, &fileOp.Backtrace)
 
@@ -156,7 +156,7 @@ func (fileOp *FileTest) Debugreverse() {
 	step_reverse()
 	fmt.Println("reverse")
 	
-	//Backtrace
+	////Charge la bactrace à chaque fois qu'on fait un step reverse
 	fileOp.Backtrace = backtrace()
 	qml.Changed(fileOp, &fileOp.Backtrace)
 }
@@ -176,7 +176,7 @@ func (fileOp *FileTest) Rmvbreakpoint(bp int){
 func (fileOp *FileTest) Debugreversecontuinue(){
 	continue_reverse()
 	
-	//Backtrace
+	//Charge la bactrace à chaque fois qu'on fait un reverse continue
 	fileOp.Backtrace = backtrace()
 	qml.Changed(fileOp, &fileOp.Backtrace)
 }

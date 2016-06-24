@@ -33,6 +33,8 @@ ApplicationWindow {
 					anchors.bottom: parent.bottom
 					wrapMode:TextEdit.WordWrap
 					frameVisible: true
+					
+					//Affiche le backtrace					
 					text :fileOp.backtrace	
 										
 					font.pixelSize: 18
@@ -88,6 +90,8 @@ ApplicationWindow {
 		
 						MouseArea {
 				   		      anchors.fill: parent
+								
+								//Selection et suppression des breakpoints
 						   		      onClicked: {
 								if (text.state == 'normal'){
 								text.state = 'modif'
@@ -114,6 +118,7 @@ ApplicationWindow {
 					}
 				}
 			}
+			
 			TextArea {
 			id: textarea
 			
@@ -124,8 +129,11 @@ ApplicationWindow {
 			
 			wrapMode: TextEdit.NoWrap
 			frameVisible: false
+			//Affiche le code source
 			text: fileOp.debugcode
+			
 			font.pixelSize: 18
+			readOnly : true
 			}
 		}
 	
@@ -145,7 +153,10 @@ ApplicationWindow {
 
 				wrapMode: TextEdit.NoWrap
 				frameVisible: true
+
+				//Affiche la console
 				text : fileOp.console
+				
 				font.pixelSize: 18
 				width : parent.width
 				//Component.onCompleted: consoleOp.affichebuffer()
@@ -162,17 +173,21 @@ ApplicationWindow {
 			
             anchors.fill: parent
 	
-		
+		//Bouton faire reverse continue
 		ToolButton {
 					iconSource: "Ressources2/reverse_continue.png"	
 					onClicked : { fileOp.debugreversecontuinue() }
 				}
+		
+		// Bouton pour faire un retour
 		ToolButton {
 
 				iconSource: "Ressources2/back.png"
 				onClicked : {fileOp.debugreverse()}
 						
 			}
+
+		//Bouton pour faire un step
 		ToolButton {
 
 				iconSource: "Ressources2/run.png"
@@ -181,22 +196,21 @@ ApplicationWindow {
 
 			}
 			
+		//Bouton pour faire un step
 		ToolButton {
 
 				iconSource: "Ressources2/step.png"
 				onClicked : {fileOp.debugstep()}
 			}
+		
+		//Bouton pour faire un  continue
 		ToolButton {
 			
 				iconSource: "Ressources2/continue.png"	
 				onClicked : {fileOp.debugcontinue()}	
 			}
 
-		ToolButton {
-			
-				iconSource: "Ressources2/stop.png"	
-				onClicked : { fileOp.debugstop() }		
-			}
+		
 			Item { Layout.fillWidth: true}
 		
 					}
