@@ -164,18 +164,18 @@ ApplicationWindow {
 	
 		
 		ToolButton {
-					iconSource: "Ressources2/reverse_continue.png"	
+					iconSource: "Ressources/reverse_continue.png"	
 					onClicked : { fileOp.debugreversecontuinue() }
 				}
 		ToolButton {
 
-				iconSource: "Ressources2/back.png"
+				iconSource: "Ressources/back.png"
 				onClicked : {fileOp.debugreverse()}
 						
 			}
 		ToolButton {
 
-				iconSource: "Ressources2/run.png"
+				iconSource: "Ressources/run.png"
 
 				onClicked : {fileOp.debugrun()	}
 
@@ -183,18 +183,18 @@ ApplicationWindow {
 			
 		ToolButton {
 
-				iconSource: "Ressources2/step.png"
+				iconSource: "Ressources/step.png"
 				onClicked : {fileOp.debugstep()}
 			}
 		ToolButton {
 			
-				iconSource: "Ressources2/continue.png"	
+				iconSource: "Ressources/continue.png"	
 				onClicked : {fileOp.debugcontinue()}	
 			}
 
 		/*ToolButton {
 			
-				iconSource: "Ressources2/stop.png"	
+				iconSource: "Ressources/stop.png"	
 				onClicked : { fileOp.debugstop() }		
 			}*/
 			Item { Layout.fillWidth: true}
