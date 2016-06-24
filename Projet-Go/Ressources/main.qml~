@@ -129,6 +129,7 @@ ApplicationWindow {
 			
 			wrapMode: TextEdit.NoWrap
 			frameVisible: false
+			
 			//Affiche le code source
 			text: fileOp.debugcode
 			

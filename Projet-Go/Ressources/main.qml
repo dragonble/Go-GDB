@@ -74,6 +74,7 @@ ApplicationWindow {
 							y: -textarea.flickableItem.contentY + 4
 							width: parent.width
 		
+					//Numérotation des lignes
 					Repeater {
 						model: Math.max(textarea.lineCount + 2, (lineColumn.height/lineColumn.rowHeight) )
 						delegate: Text {

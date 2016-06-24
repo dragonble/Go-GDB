@@ -61,12 +61,14 @@ func run() error {
     return nil
 }
 
+
+
 type FileTest struct {
     Debugcode   string
     Console string
     Backtrace string
 }
-type outputGDB struct {
+/*type outputGDB struct {
 	pos int32
 }
 
@@ -74,7 +76,7 @@ func (out *outputGDB) Write(p []byte) (n int, err error) {
 	out.pos++
 	fmt.Println(string(p))
 	return len(p),nil
-}
+}*/
 
 //func (fileOp *FileTest) Debugrun() {  
 	/*rescueStdout := os.Stdout
@@ -112,6 +114,8 @@ func (out *outputGDB) Write(p []byte) (n int, err error) {
 =======
 }*/
 
+//Fonction qui va être appelée par qml 
+// pour commencer le debogage
 func (fileOp *FileTest) Debugrun() {  
 
      start() 
@@ -124,6 +128,9 @@ func (fileOp *FileTest) Debugrun() {
 
 
 }
+
+//Fonction qui va être  appelée par qml 
+//pour avancer de pas à pas
 func (fileOp *FileTest) Debugstep() {  
 	
         step()
@@ -136,6 +143,9 @@ func (fileOp *FileTest) Debugstep() {
 	qml.Changed(fileOp, &fileOp.Backtrace)
 
 }
+
+//Fonction qui va être appelée par qml   
+//pour faire un saut
 func (fileOp *FileTest) Debugcontinue() {  
 	
         continuee() 
@@ -151,6 +161,8 @@ func (fileOp *FileTest) Debugcontinue() {
 	
 }
 
+//Fonction qui va être appelée par qml 
+// pour reculer de pas à pas
 func (fileOp *FileTest) Debugreverse() {  
         
 	step_reverse()
@@ -161,18 +173,25 @@ func (fileOp *FileTest) Debugreverse() {
 	qml.Changed(fileOp, &fileOp.Backtrace)
 }
 
+//Fonction qui va être  appelée par qml 
+//pour ajouter breakpoint
 func (fileOp *FileTest) Addbreakpoint(bp int) {  
         
 	
 	breake(bp)
 	fmt.Println(bp)
 }
+
+//Fonction qui va être appelée par qml 
+//pour supprimer  un breakpoint
 func (fileOp *FileTest) Rmvbreakpoint(bp int){
 	delete_break(bp)
 	fmt.Println(bp)
 }
 
 
+//Fonction qui va être appelée par qml 
+//pour revenir d'un saut
 func (fileOp *FileTest) Debugreversecontuinue(){
 	continue_reverse()
 	
