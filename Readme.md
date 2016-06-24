@@ -1,5 +1,14 @@
+# Description :
 
-					Manuel Utilisateur
+Interface GDB écrit en Go 
+				
+# Pré-requis : 
+	Installer Go 				
+				
+
+
+# Manuel Utilisateur :
+
 •	Compiler votre programme à debugger en static avec l’option débogage (-g)
 
 •	Compiler le tout avec : go build
@@ -7,10 +16,14 @@
 •	Lancer cette commande : export GODEBUG=cgocheck=0
 
 •	Lancer le programme avec en indiquant le (chemin) fichier source du programme à debugger en premier suivi  (chemin) de son code compilé: 
+						
 							Example :  ./Ressources  essai.c  essai
-															Ressources : programme compilé
-															essai.c : code source à debugger
-															essai : code compilé d’ssai
+															
+								        Ressources : programme compilé
+														
+									essai.c : code source à debugger
+														
+									essai : code compilé d’ssai
  
 
 •	Choisir un breakpoint ou plusieurs en cliquant sur un des numéros de ligne 
