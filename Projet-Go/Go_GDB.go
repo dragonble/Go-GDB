@@ -187,7 +187,7 @@ import (
 									index := strconv.Itoa(i)
 
 									
-									//list variables by frame 
+									//liste des variables par frame 
 									output_variables,_  := debug.Send("stack-list-variables","--thread","1","--frame",index,"--simple-values")
 									map_variables := output_variables["payload"]
 									m_variables := map_variables.(map[string]interface{})
@@ -207,20 +207,20 @@ import (
 										Separe_variables := variables_slice[j]
 										Separe_variablesAssert :=Separe_variables.(map[string]interface{})
 										
-										//Variable name
+										//Nom Variable 
 										name := Separe_variablesAssert["name"]
 										str_name := name.(string)
 										
-										//Variables types
+										//Type Variables 
 										typee := Separe_variablesAssert["type"]
 										str_type := typee.(string)
 										
-										//Variables Values
+										//Valeur Variables 
 										value := Separe_variablesAssert["value"]
 										str_value := value.(string)
 										
 
-										// Check if this variable is a argument
+										// Verifie si la variable est un argument
 										if arg, ok := Separe_variablesAssert["arg"] ;ok{
 										str_arg := arg.(string)
 											str_variables +="variable name : " + str_name + " type :" + str_type + " value :" + str_value +

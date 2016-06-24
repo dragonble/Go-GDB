@@ -49,7 +49,7 @@ ApplicationWindow {
             orientation: Qt.Vertical
             Layout.fillWidth: true
 			
-			//Source Code
+			//Code source
             Rectangle {
                 id: row1
                 height: 400
@@ -96,17 +96,17 @@ ApplicationWindow {
 									//Selection et suppression des breakpoints
 						   		      onClicked: {
 								if (text.state == 'normal'){
-								text.state = 'modif'
+								text.state = 'modif'//breakpoint activé
 								fileOp.addbreakpoint(index + 1)
 								}
 								else {
-								text.state = 'normal'
+								text.state = 'normal'//breakpoint retiré
 								fileOp.rmvbreakpoint(index + 1)
 								}
 								}
 							 }
 				 
-				   		  states: [
+				   		  states: [ //Etats des breakpoints
 					  		   State {
 					  			name: "modif"
 					  		       PropertyChanges { target: text; color : "blue" }
@@ -160,9 +160,9 @@ ApplicationWindow {
 			
 				font.pixelSize: 18
 				width : parent.width
-				//Component.onCompleted: consoleOp.affichebuffer()
+				
 				}
-		//Binding { target: fileOp; property: "console"; value: textarea2.text  }
+		
             }
         }
 
@@ -174,7 +174,7 @@ ApplicationWindow {
 			
             anchors.fill: parent
 	
-		//Bouton faire reverse continue
+		//Bouton pour faire un reverse continue
 		ToolButton {
 					iconSource: "Ressources/reverse_continue.png"	
 					onClicked : { fileOp.debugreversecontuinue() }
@@ -188,7 +188,7 @@ ApplicationWindow {
 						
 			}
 
-		//Bouton pour faire un step
+		//Bouton pour lancer le programme
 		ToolButton {
 
 				iconSource: "Ressources/run.png"
