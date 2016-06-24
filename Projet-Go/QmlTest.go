@@ -4,12 +4,14 @@ import (
     "fmt"
     "gopkg.in/qml.v1"
     "os"
-    "io"
     "io/ioutil"    
     "path/filepath"
     "log"
-    
-    "bytes"
+  //  "time"
+    //"io"
+   // "bytes"
+	//"os/exec"
+	
 )
 
 func main() {
@@ -25,19 +27,19 @@ func main() {
 
 func run() error {
 
-	dir, err := filepath.Abs(filepath.Dir(os.Args[1]))
+	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
    	 if err != nil {
             log.Fatal(err)
     	}
 
-	
+	dirTravail := dir + "/Ressources"
 
-    dat, err2 := ioutil.ReadFile(dir + "/" + os.Args[1])
+    dat, err2 := ioutil.ReadFile(dirTravail + "/" + os.Args[1])
     if err2 != nil {
             log.Fatal(err2)
     	}
 
-    
+    execGdb()
    
     engine := qml.NewEngine()
 
@@ -47,18 +49,9 @@ func run() error {
     }
 
     context := engine.Context()
-    context.SetVar("fileOp",&File{Content : string(dat)})
+    context.SetVar("fileOp",&FileTest{Debugcode : string(dat),Console : "",Backtrace : ""})
 
 	
-	
-	buf := new(bytes.Buffer)
-
-	
-	
-	go io.Copy(buf,os.Stdout)
-	go qml.Changed(console, &console.Content)
-    context2 := engine.Context()
-    context2.SetVar("console",&File{Content : buf.String()})
     window := component.CreateWindow(nil)
 	
 
@@ -68,25 +61,149 @@ func run() error {
     return nil
 }
 
-type File struct {
-    Name    string
-    Content string
+type FileTest struct {
+    Debugcode   string
+    Console string
+    Backtrace string
 }
- 
-/*func (file *File) DebugRun() string {  
-        start() 
-}
-func (file *File) DebugStep() string {  
-        step() 
-}
-func (file *File) DebugContinue() string {  
-        continuee() 
+/*
+type outputGDB struct {
+	pos int32
 }
 
-func (file *File) DebugReverse() string {  
+func (out *outputGDB) Write(p []byte) (n int, err error) {
+	out.pos++
+	fmt.Println(string(p))
+	return len(p),nil
+}
+*/
+//func (fileOp *FileTest) Debugrun() {  
+	/*rescueStdout := os.Stdout
+ 	 r, w, _ := os.Pipe()
+ 	 os.Stdout = w*/
+
+ 
+	
+	//io.Copy(os.Stdout, debug)
+	
+	//fmt.Println("Hello, playground") 
+	//debug.Exit()
+  	/*w.Close()
+	debug.Interrupt()
+  	out, _ := ioutil.ReadAll(r)
+  	os.Stdout = rescueStdout*/
+
+ 	/*out := &outputGDB{}
+	start()
+	io.Copy(out, debug)
+	debug.Exit()*/
+	
+
+
+
+	// fmt.Printf("Captured: %s \n", out)
+	//debug.Interrupt()
+  	//fileOp.Console = fileOp.Console + "\n" + string(out)
+	//qml.Changed(consoleOp, &fileOp.Console)
+	//debug.Exit()
+
+
+
+func (fileOp *FileTest) Debugrun() {  
+
+     	start() 
+	where()
+	
+	
+	//Backtrace
+	fileOp.Backtrace = backtrace()
+	qml.Changed(fileOp, &fileOp.Backtrace)
+	
+	
+	
+
+	
+
+
+}
+func (fileOp *FileTest) Debugstep() {  
+	
+        step()
+	 
+	where()
+	
+
+	//Backtrace
+	fileOp.Backtrace = backtrace()
+	qml.Changed(fileOp, &fileOp.Backtrace)
+
+}
+func (fileOp *FileTest) Debugcontinue() {  
+	
+        continuee() 
+	
+
+	where()
+
+
+	//Backtrace
+	fileOp.Backtrace = backtrace()
+	qml.Changed(fileOp, &fileOp.Backtrace)
+
+	
+}
+
+func (fileOp *FileTest) Debugreverse() {  
         
 	step_reverse()
+	where()
+	
+	//Backtrace
+	fileOp.Backtrace = backtrace()
+	qml.Changed(fileOp, &fileOp.Backtrace)
+}
+
+func (fileOp *FileTest) Addbreakpoint(bp int) {  
+        
+	
+	breake(bp)
+	
+}
+func (fileOp *FileTest) Rmvbreakpoint(bp int){
+	delete_break(bp)
+	
+}
+
+
+func (fileOp *FileTest) Debugreversecontuinue(){
+	continue_reverse()
+	where()
+	//Backtrace
+	fileOp.Backtrace = backtrace()
+	qml.Changed(fileOp, &fileOp.Backtrace)
+}
+
+/*func (fileOp *FileTest) Debugstop(){
+	stop()
 }*/
+
+/*
+func (consoleOp *FileTest) Affichebuffer() {
+	
+	 rescueStdout := os.Stdout
+ 	 r, w, _ := os.Pipe()
+  	os.Stdout = w
+
+  	w.Close()
+  	out, _ := ioutil.ReadAll(r)
+  	os.Stdout = rescueStdout
+	
+  	consoleOp.Content = consoleOp.Content + "\n" + string(out)
+	qml.Changed(consoleOp, &consoleOp.Content)
+}
+
+
+*/
 
 
 

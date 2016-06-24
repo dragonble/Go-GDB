@@ -15,6 +15,8 @@ ApplicationWindow {
 		anchors.right : parent.right
 		anchors.left : parent.left
 		anchors.bottom : parent.bottom
+
+		//Backtrace
         Rectangle {
             id: column
             width: 200
@@ -24,24 +26,28 @@ ApplicationWindow {
 
 				
 				TextArea{
-				id: textarea1
-				anchors.left: parent.left
-				anchors.right: parent.right
-				anchors.top: parent.top 
-				anchors.bottom: parent.bottom
-				wrapMode: TextEdit.NoWrap
-				frameVisible: true
-				text :" backtrace"
-				font.pixelSize: 18
-				width : parent.width
+					id: textarea1
+					anchors.left: parent.left
+					anchors.right: parent.right
+					anchors.top: parent.top 
+					anchors.bottom: parent.bottom
+					wrapMode:TextEdit.WordWrap
+					frameVisible: true
+					text :fileOp.backtrace	
+										
+					font.pixelSize: 18
+					width : parent.width
+					readOnly :true
 
 				}
+				
         }
 	
         SplitView {
             orientation: Qt.Vertical
             Layout.fillWidth: true
 			
+			//Source Code
             Rectangle {
                 id: row1
                 height: 400
@@ -83,20 +89,24 @@ ApplicationWindow {
 						MouseArea {
 				   		      anchors.fill: parent
 						   		      onClicked: {
-								if (text.state == 'normal')
+								if (text.state == 'normal'){
 								text.state = 'modif'
-								else 
+								fileOp.addbreakpoint(index + 1)
+								}
+								else {
 								text.state = 'normal'
+								fileOp.rmvbreakpoint(index + 1)
+								}
 								}
 							 }
 				 
 				   		  states: [
 					  		   State {
-					  		       name: "modif"
+					  			name: "modif"
 					  		       PropertyChanges { target: text; color : "blue" }
 					 		    },
 							State {
-									 name: "normal"
+								name: "normal"
 					  		       PropertyChanges { target: text; color : "#666" }
 					 		    }
 				   		  ]
@@ -114,7 +124,7 @@ ApplicationWindow {
 			
 			wrapMode: TextEdit.NoWrap
 			frameVisible: false
-			text: fileOp.content
+			text: fileOp.debugcode
 			font.pixelSize: 18
 			}
 		}
@@ -130,15 +140,17 @@ ApplicationWindow {
 		
 				TextArea{
 				id: textarea2
-				anchors.fill: parent
-			
+				
+				anchors.fill : parent
+
 				wrapMode: TextEdit.NoWrap
 				frameVisible: true
-				text : console.content ? text : ""
+				text : fileOp.console
 				font.pixelSize: 18
 				width : parent.width
-
+				//Component.onCompleted: consoleOp.affichebuffer()
 				}
+		//Binding { target: fileOp; property: "console"; value: textarea2.text  }
             }
         }
 
@@ -149,28 +161,42 @@ ApplicationWindow {
 		RowLayout {
 			
             anchors.fill: parent
+	
+		
+		ToolButton {
+					iconSource: "Ressources2/reverse_continue.png"	
+					onClicked : { fileOp.debugreversecontuinue() }
+				}
 		ToolButton {
 
-				iconSource: "Ressources/back.png"
-				onClicked : fileOP.debugreverse()
+				iconSource: "Ressources2/back.png"
+				onClicked : {fileOp.debugreverse()}
 						
 			}
 		ToolButton {
 
-				iconSource: "Ressources/run.png"
-				onClicked : fileOp.debugrun()	
+				iconSource: "Ressources2/run.png"
+
+				onClicked : {fileOp.debugrun()	}
+
 			}
 			
 		ToolButton {
 
-				iconSource: "Ressources/step.png"
-				onClicked : fileOp.debugstep()
+				iconSource: "Ressources2/step.png"
+				onClicked : {fileOp.debugstep()}
 			}
 		ToolButton {
 			
-				iconSource: "Ressources/continue.png"	
-				onClicked : fileOp.debugcontinue()	
+				iconSource: "Ressources2/continue.png"	
+				onClicked : {fileOp.debugcontinue()}	
 			}
+
+		/*ToolButton {
+			
+				iconSource: "Ressources2/stop.png"	
+				onClicked : { fileOp.debugstop() }		
+			}*/
 			Item { Layout.fillWidth: true}
 		
 					}
